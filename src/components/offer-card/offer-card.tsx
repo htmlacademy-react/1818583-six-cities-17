@@ -1,28 +1,38 @@
-import {OfferType} from '../../types/types.ts';
+import {CardType, OfferType} from '../../types.ts';
+import {useState} from 'react';
+import {Link} from 'react-router-dom';
 
 type Props = {
-  data: OfferType;
+  offer: OfferType;
+  cardType: CardType;
 }
 
-function OfferCard({ data }: Props) {
+function OfferCard({ offer, cardType }: Props) {
+  const [isActive, setIsActive] = useState<boolean>(false);
+
+  const { rating, previewImage, price, isPremium, title, type} = offer;
+
+  const placeRating = rating || 0;
+  const linkTo = `/offer/${offer.id}`;
+
   return (
-    <article className="cities__card place-card">
+    <article className={`${cardType}__card place-card`} onMouseEnter={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)}>
       {
-        data.isPremium && (
+        isPremium && (
           <div className="place-card__mark">
             <span>Premium</span>
           </div>
         )
       }
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src={data.previewImage} width="260" height="200" alt="Place image" />
-        </a>
+      <div className={`${cardType}__image-wrapper place-card__image-wrapper`}>
+        <Link to={linkTo}>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{data.price}</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -34,14 +44,14 @@ function OfferCard({ data }: Props) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${data.rating * 20}%`}}></span>
+            <span style={{width: `${placeRating * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{data.title}</a>
+          <Link to={linkTo}>{title}</Link>
         </h2>
-        <p className="place-card__type">{data.type}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );
