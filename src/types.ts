@@ -5,7 +5,7 @@ export type LocationType = {
 }
 
 export type CityType = {
-  name: string;
+  name: CityName;
   location: LocationType;
 }
 
@@ -18,12 +18,12 @@ export type OfferType = {
   location: LocationType;
   isFavorite: boolean;
   isPremium: boolean;
-  rating: number;
+  rating: RatingType;
   previewImage: string;
 }
 
-export type MainPageType = {
-  selectedCity: string;
-  totalOffersCount: number;
-  offers: OfferType[];
-}
+export type CardType = 'favorites' | 'cities';
+
+export type CityName = string;
+
+export type RatingType = number | null;
