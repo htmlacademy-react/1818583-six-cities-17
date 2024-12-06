@@ -1,12 +1,20 @@
 import {OfferType} from '../../types.ts';
 import Header from '../../components/header/header.tsx';
 import OffersList from '../../components/offers-list/offers-list.tsx';
+import {useState} from 'react';
+import {Link} from 'react-router-dom';
 
 type Props = {
   offers: OfferType[];
 }
 
 function MainPage({ offers }: Props) {
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
+  const handleActiveOffer = (id: string | null) => {
+    setActiveOfferId(id);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -17,34 +25,34 @@ function MainPage({ offers }: Props) {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Paris</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Cologne</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Brussels</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
+                <Link className="locations__item-link tabs__item tabs__item--active">
                   <span>Amsterdam</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Hamburg</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Dusseldorf</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </section>
@@ -69,7 +77,7 @@ function MainPage({ offers }: Props) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>

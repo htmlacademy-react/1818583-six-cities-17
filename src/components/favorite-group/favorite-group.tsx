@@ -1,5 +1,6 @@
 import {OfferType} from '../../types.ts';
 import OfferCard from '../offer-card/offer-card.tsx';
+import {Link} from 'react-router-dom';
 
 type Props = {
   offers: OfferType[];
@@ -11,9 +12,9 @@ function FavoriteGroup({offers, city}: Props) {
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
+          <Link className="locations__item-link" to="#">
             <span>{city}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">

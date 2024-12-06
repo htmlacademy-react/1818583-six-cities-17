@@ -18,12 +18,10 @@ export type OfferType = {
   location: LocationType;
   isFavorite: boolean;
   isPremium: boolean;
-  rating: RatingType;
+  rating: number;
   previewImage: string;
 }
 
 export type CardType = 'favorites' | 'cities';
 
 export type CityName = string;
-
-export type RatingType = number | null;

@@ -3,13 +3,14 @@ import {OfferType} from '../../types.ts';
 
 type Props = {
   offers: OfferType[];
+  onActiveOffer: (id: string | null) => void;
 }
 
-function OffersList({ offers }: Props) {
+function OffersList({ offers, onActiveOffer }: Props) {
   return (
     <div className="cities__places-list places__list tabs__content">
       {
-        offers.map((offer) => <OfferCard key={offer.id} offer={offer} cardType='cities'/>)
+        offers.map((offer) => <OfferCard key={offer.id} offer={offer} cardType='cities' onActiveOffer={onActiveOffer}/>)
       }
     </div>
   );

@@ -1,18 +1,21 @@
-import {ChangeEvent, useState} from 'react';
-import {RatingType} from '../../types.ts';
+import {ChangeEvent, FormEvent, useState} from 'react';
 
 type FormDataType = {
-  rating: RatingType;
+  rating: number;
   review: string;
 }
 
-const initialState: FormDataType = {
-  rating: null,
+const INITIAL_STATE: FormDataType = {
+  rating: 0,
   review: '',
 };
 
 function AddCommentForm() {
-  const [formData, setFormData] = useState<FormDataType>(initialState);
+  const [formData, setFormData] = useState<FormDataType>(INITIAL_STATE);
+
+  const isValidRating = formData.rating > 0 && formData.rating <= 5;
+  const isValidReview = formData.review.length >= 50 && formData.review.length <= 300;
+  const isValid = isValidRating && isValidReview;
 
   const handleChangeRating = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -28,8 +31,14 @@ function AddCommentForm() {
     }));
   };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.currentTarget.reset();
+    setFormData(INITIAL_STATE);
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars"
@@ -82,6 +91,7 @@ function AddCommentForm() {
       <textarea className="reviews__textarea form__textarea" id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleChangeReview}
+        value={formData.review}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -89,7 +99,7 @@ function AddCommentForm() {
           To submit review please make sure to set <span className="reviews__star">rating</span> and
           describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit">Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!isValid}>Submit</button>
       </div>
     </form>
   );

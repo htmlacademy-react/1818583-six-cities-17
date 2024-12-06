@@ -1,22 +1,20 @@
 import {CardType, OfferType} from '../../types.ts';
-import {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 type Props = {
   offer: OfferType;
   cardType: CardType;
+  onActiveOffer?: (id: string | null) => void;
 }
 
-function OfferCard({ offer, cardType }: Props) {
-  const [isActive, setIsActive] = useState<boolean>(false);
-
+function OfferCard({ offer, cardType, onActiveOffer = () => {} }: Props) {
   const { rating, previewImage, price, isPremium, title, type} = offer;
 
   const placeRating = rating || 0;
   const linkTo = `/offer/${offer.id}`;
 
   return (
-    <article className={`${cardType}__card place-card`} onMouseEnter={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)}>
+    <article className={`${cardType}__card place-card`} onMouseEnter={() => onActiveOffer(offer.id)} onMouseLeave={() => onActiveOffer(null)}>
       {
         isPremium && (
           <div className="place-card__mark">
@@ -26,7 +24,7 @@ function OfferCard({ offer, cardType }: Props) {
       }
       <div className={`${cardType}__image-wrapper place-card__image-wrapper`}>
         <Link to={linkTo}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={previewImage} width={cardType === 'cities' ? '260' : '150'} height={cardType === 'cities' ? '200' : '110'} alt="Place image" />
         </Link>
       </div>
       <div className="place-card__info">
