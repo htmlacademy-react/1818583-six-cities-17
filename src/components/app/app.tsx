@@ -1,5 +1,5 @@
 import MainPage from '../../pages/main-page/main-page.tsx';
-import {MainPageType} from '../../types/types.ts';
+import {OfferType} from '../../types.ts';
 import {Route, Routes} from 'react-router-dom';
 import LoginPage from '../../pages/login-page/login-page.tsx';
 import Page404 from '../../pages/page-404/page-404.tsx';
@@ -9,20 +9,19 @@ import {APP_PAGES} from '../../const.ts';
 import PrivateRoute from '../private-route/private-route.tsx';
 
 type Props = {
-  data: MainPageType;
+  offers: OfferType[];
 }
 
-const OFFERS_COUNT = 5;
-const HAS_ACCESS = false;
+const HAS_ACCESS = true;
 
-function App({ data }: Props) {
+function App({ offers }: Props) {
   return (
     <Routes>
-      <Route path={APP_PAGES.MAIN} element={<MainPage offersCount={OFFERS_COUNT} data={data}/>}/>
+      <Route path={APP_PAGES.MAIN} element={<MainPage offers={offers}/>}/>
       <Route path={APP_PAGES.LOGIN} element={<LoginPage />}/>
       <Route path={APP_PAGES.FAVORITES} element={
         <PrivateRoute hasAccess={HAS_ACCESS}>
-          <FavoritesPage />
+          <FavoritesPage offers={offers}/>
         </PrivateRoute>
       }
       />

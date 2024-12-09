@@ -5,7 +5,7 @@ export type LocationType = {
 }
 
 export type CityType = {
-  name: string;
+  name: CityName;
   location: LocationType;
 }
 
@@ -22,8 +22,6 @@ export type OfferType = {
   previewImage: string;
 }
 
-export type MainPageType = {
-  selectedCity: string;
-  totalOffersCount: number;
-  offers: OfferType[];
-}
+export type CardType = 'favorites' | 'cities';
+
+export type CityName = string;
