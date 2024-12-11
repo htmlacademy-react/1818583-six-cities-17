@@ -21,6 +21,8 @@ type Props = {
   activeOfferId: string | null;
 }
 
+// test
+
 function CityMap() {
   const mapRef = useRef(null);
   const map = useMap(mapRef);
