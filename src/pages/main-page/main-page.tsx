@@ -3,6 +3,7 @@ import Header from '../../components/header/header.tsx';
 import OffersList from '../../components/offers-list/offers-list.tsx';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
+import CityMap from '../../components/city-map/city-map.tsx';
 
 type Props = {
   offers: OfferType[];
@@ -40,7 +41,7 @@ function MainPage({ offers }: Props) {
                 </Link>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item tabs__item--active">
+                <Link className="locations__item-link tabs__item tabs__item--active" to='#'>
                   <span>Amsterdam</span>
                 </Link>
               </li>
@@ -80,7 +81,7 @@ function MainPage({ offers }: Props) {
               <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <CityMap />
             </div>
           </div>
         </div>
