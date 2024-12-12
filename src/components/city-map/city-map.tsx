@@ -30,8 +30,8 @@ function CityMap({ activeOfferId, points }: Props) {
       const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
         const marker = new Marker({
-          lat: 48.8534,
-          lng: 2.3488
+          lat: point.location.latitude,
+          lng: point.location.longitude
         });
 
         marker
