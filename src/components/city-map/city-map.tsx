@@ -1,7 +1,7 @@
 import {useEffect, useRef} from 'react';
 import useMap from '../../hooks/use-map.ts';
 import {Point} from '../../types.ts';
-import leaflet, {layerGroup} from 'leaflet';
+import leaflet, {layerGroup, Marker} from 'leaflet';
 import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
 
 const defaultCustomIcon = leaflet.icon({
@@ -21,35 +21,33 @@ type Props = {
   activeOfferId: string | null;
 }
 
-// test
-
-function CityMap() {
+function CityMap({ activeOfferId, points }: Props) {
   const mapRef = useRef(null);
   const map = useMap(mapRef);
 
-  // useEffect(() => {
-  //   if (map) {
-  //     const markerLayer = layerGroup().addTo(map);
-  // points.forEach((point) => {
-  //   const marker = new Marker({
-  //     lat: point.lat,
-  //     lng: point.lng
-  //   });
-  //
-  //   marker
-  //     .setIcon(
-  //       selectedPoint !== undefined && point.title === selectedPoint.title
-  //         ? currentCustomIcon
-  //         : defaultCustomIcon
-  //     )
-  //     .addTo(markerLayer);
-  // });
-  //
-  //     return () => {
-  //       map.removeLayer(markerLayer);
-  //     };
-  //   }
-  // }, [map]);
+  useEffect(() => {
+    if (map) {
+      const markerLayer = layerGroup().addTo(map);
+      points.forEach((point) => {
+        const marker = new Marker({
+          lat: 48.8534,
+          lng: 2.3488
+        });
+
+        marker
+          .setIcon(
+            activeOfferId !== undefined && point.id === activeOfferId
+              ? currentCustomIcon
+              : defaultCustomIcon
+          )
+          .addTo(markerLayer);
+      });
+
+      return () => {
+        map.removeLayer(markerLayer);
+      };
+    }
+  }, [activeOfferId, map, points]);
 
   return (
     <section className="cities__map" ref={mapRef}></section>

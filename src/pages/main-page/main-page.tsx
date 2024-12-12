@@ -81,7 +81,11 @@ function MainPage({ offers }: Props) {
               <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <CityMap />
+              <CityMap activeOfferId={activeOfferId} points={offers.map((offer) => ({
+                id: offer.id,
+                location: offer.location,
+              }))}
+              />
             </div>
           </div>
         </div>
