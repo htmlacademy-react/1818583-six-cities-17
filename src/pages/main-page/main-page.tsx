@@ -1,9 +1,10 @@
-import {OfferType} from '../../types.ts';
+import {LocationType, OfferType, Point} from '../../types.ts';
 import Header from '../../components/header/header.tsx';
 import OffersList from '../../components/offers-list/offers-list.tsx';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
 import CityMap from '../../components/city-map/city-map.tsx';
+import {DEFAULT_CITY} from '../../const.ts';
 
 type Props = {
   offers: OfferType[];
@@ -15,6 +16,13 @@ function MainPage({ offers }: Props) {
   const handleActiveOffer = (id: string | null) => {
     setActiveOfferId(id);
   };
+
+  const points: Point[] = offers.map((offer) => ({
+    id: offer.id,
+    location: offer.location,
+  }));
+
+  const city: LocationType = offers.length > 0 ? offers[0].city.location : DEFAULT_CITY;
 
   return (
     <div className="page page--gray page--main">
@@ -81,11 +89,7 @@ function MainPage({ offers }: Props) {
               <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <CityMap activeOfferId={activeOfferId} points={offers.map((offer) => ({
-                id: offer.id,
-                location: offer.location,
-              }))}
-              />
+              <CityMap activeOfferId={activeOfferId} points={points} city={city}/>
             </div>
           </div>
         </div>
