@@ -89,7 +89,7 @@ function MainPage({ offers }: Props) {
               <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <CityMap activeOfferId={activeOfferId} points={points} city={city}/>
+              <CityMap activeOfferId={activeOfferId} points={points} city={city} className='cities__map'/>
             </div>
           </div>
         </div>
