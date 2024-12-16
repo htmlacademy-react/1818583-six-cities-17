@@ -1,4 +1,4 @@
-import {LocationType} from './types.ts';
+import {CityLink, LocationType} from './types.ts';
 
 export enum APP_PAGES {
   MAIN = '/',
@@ -24,3 +24,30 @@ export const RATING_MIN = 1;
 export const RATING_MAX = 5;
 export const REVIEW_LENGTH_MIN = 50;
 export const REVIEW_LENGTH_MAX = 300;
+
+export const CITY_LINKS: CityLink[] = [
+  {
+    id: 'paris',
+    displayName: 'Paris',
+  },
+  {
+    id: 'cologne',
+    displayName: 'Cologne',
+  },
+  {
+    id: 'brussels',
+    displayName: 'Brussels',
+  },
+  {
+    id: 'amsterdam',
+    displayName: 'Amsterdam',
+  },
+  {
+    id: 'hamburg',
+    displayName: 'Hamburg',
+  },
+  {
+    id: 'dusseldorf',
+    displayName: 'Dusseldorf',
+  },
+];

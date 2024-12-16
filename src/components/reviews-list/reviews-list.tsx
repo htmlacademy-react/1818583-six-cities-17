@@ -1,5 +1,5 @@
-import AddCommentForm from '../add-comment-form/add-comment-form.tsx';
-import Review from '../review/review.tsx';
+import {AddCommentForm} from '../add-comment-form/add-comment-form.tsx';
+import {Review} from '../review/review.tsx';
 import {ReviewType} from '../../types.ts';
 
 type Props = {
@@ -20,4 +20,4 @@ function ReviewsList({ list }: Props) {
   );
 }
 
-export default ReviewsList;
+export {ReviewsList};

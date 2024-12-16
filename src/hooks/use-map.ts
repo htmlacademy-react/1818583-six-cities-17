@@ -37,4 +37,4 @@ function useMap(
   return map;
 }
 
-export default useMap;
+export {useMap};

@@ -1,4 +1,4 @@
-import OfferCard from '../offer-card/offer-card.tsx';
+import {OfferCard} from '../offer-card/offer-card.tsx';
 import {OfferType} from '../../types.ts';
 
 type Props = {
@@ -16,4 +16,4 @@ function OffersList({ offers, onActiveOffer }: Props) {
   );
 }
 
-export default OffersList;
+export {OffersList};

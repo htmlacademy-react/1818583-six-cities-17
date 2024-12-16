@@ -1,4 +1,5 @@
 import {CityName, OfferType} from './types.ts';
+import {CITY_LINKS} from './const.ts';
 
 type OfferGroups = Record<CityName, OfferType[]>;
 
@@ -16,4 +17,13 @@ export function getOfferGroups(offers: OfferType[]): OfferGroups {
   });
 
   return result;
+}
+
+export function getCityName(cityId?: string) {
+  return CITY_LINKS.find((link) => link.id === cityId)?.displayName;
+}
+
+export function filterOffersByCity(offers: OfferType[], cityId?: string): OfferType[] {
+  const cityName = getCityName(cityId);
+  return offers.filter((offer) => offer.city.name === cityName) || [];
 }

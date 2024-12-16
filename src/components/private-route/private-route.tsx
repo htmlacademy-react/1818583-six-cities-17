@@ -11,4 +11,4 @@ function PrivateRoute({children, hasAccess}: Props) {
   return hasAccess ? children : <Navigate to={APP_PAGES.LOGIN} />;
 }
 
-export default PrivateRoute;
+export {PrivateRoute};

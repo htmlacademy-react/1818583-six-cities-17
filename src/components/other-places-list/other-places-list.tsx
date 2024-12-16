@@ -1,5 +1,5 @@
 import {OfferType} from '../../types.ts';
-import OfferCard from '../offer-card/offer-card.tsx';
+import {OfferCard} from '../offer-card/offer-card.tsx';
 
 type Props = {
   list: OfferType[];
@@ -18,4 +18,4 @@ function OtherPlacesList({ list }: Props) {
   );
 }
 
-export default OtherPlacesList;
+export {OtherPlacesList};

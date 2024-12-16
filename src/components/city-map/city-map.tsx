@@ -1,5 +1,5 @@
 import {useEffect, useRef} from 'react';
-import useMap from '../../hooks/use-map.ts';
+import {useMap} from '../../hooks/use-map.ts';
 import {LocationType, Point} from '../../types.ts';
 import leaflet, {layerGroup, Marker} from 'leaflet';
 import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
@@ -56,4 +56,4 @@ function CityMap({ activeOfferId, points, city, className }: Props) {
   );
 }
 
-export default CityMap;
+export {CityMap};
