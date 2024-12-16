@@ -20,7 +20,7 @@ export function getOfferGroups(offers: OfferType[]): OfferGroups {
 }
 
 export function getCityName(cityId?: string) {
-  return CITY_LINKS.find((link) => link.id === cityId)?.displayName;
+  return CITY_LINKS.find((link) => link.id === cityId)?.displayName || '';
 }
 
 export function filterOffersByCity(offers: OfferType[], cityId?: string): OfferType[] {
