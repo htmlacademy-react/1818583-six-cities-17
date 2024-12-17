@@ -1,10 +1,10 @@
-import Header from '../../components/header/header.tsx';
-import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
+import {Header} from '../../components/header/header.tsx';
+import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
 import {REVIEWS_LIST} from '../../mocks/reviews.ts';
-import CityMap from '../../components/city-map/city-map.tsx';
+import {CityMap} from '../../components/city-map/city-map.tsx';
 import {OFFERS_MOCK} from '../../mocks/offers.ts';
 import {Point} from '../../types.ts';
-import OtherPlacesList from '../../components/other-places-list/other-places-list.tsx';
+import {OtherPlacesList} from '../../components/other-places-list/other-places-list.tsx';
 
 const OFFER_MOCK = OFFERS_MOCK[0];
 
@@ -163,4 +163,4 @@ function OfferPage() {
   );
 }
 
-export default OfferPage;
+export {OfferPage};

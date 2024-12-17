@@ -1,28 +1,31 @@
-import {LocationType, OfferType, Point} from '../../types.ts';
-import Header from '../../components/header/header.tsx';
-import OffersList from '../../components/offers-list/offers-list.tsx';
+import {LocationType, Point} from '../../types.ts';
+import {Header} from '../../components/header/header.tsx';
+import {OffersList} from '../../components/offers-list/offers-list.tsx';
 import {useState} from 'react';
-import {Link} from 'react-router-dom';
-import CityMap from '../../components/city-map/city-map.tsx';
+import {CityMap} from '../../components/city-map/city-map.tsx';
 import {DEFAULT_CITY} from '../../const.ts';
+import {CitiesList} from '../../components/cities-list/cities-list.tsx';
+import {filterOffersByCity, getCityName} from '../../adaptors.ts';
+import {useAppSelector} from '../../hooks/useAppSelector.ts';
 
-type Props = {
-  offers: OfferType[];
-}
-
-function MainPage({ offers }: Props) {
+function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
+  const cityId = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
 
   const handleActiveOffer = (id: string | null) => {
     setActiveOfferId(id);
   };
 
-  const points: Point[] = offers.map((offer) => ({
+  const filteredOffers = filterOffersByCity(offers, cityId);
+
+  const points: Point[] = filteredOffers.map((offer) => ({
     id: offer.id,
     location: offer.location,
   }));
 
-  const city: LocationType = offers.length > 0 ? offers[0].city.location : DEFAULT_CITY;
+  const city: LocationType = filteredOffers.length > 0 ? filteredOffers[0].city.location : DEFAULT_CITY;
 
   return (
     <div className="page page--gray page--main">
@@ -32,45 +35,14 @@ function MainPage({ offers }: Props) {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Paris</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Cologne</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Brussels</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item tabs__item--active" to='#'>
-                  <span>Amsterdam</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Hamburg</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Dusseldorf</span>
-                </Link>
-              </li>
-            </ul>
+            <CitiesList cityId={cityId}/>
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{filteredOffers.length} places to stay in {getCityName(cityId)}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -86,7 +58,7 @@ function MainPage({ offers }: Props) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
+              <OffersList offers={filteredOffers} onActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
               <CityMap activeOfferId={activeOfferId} points={points} city={city} className='cities__map'/>
@@ -98,4 +70,4 @@ function MainPage({ offers }: Props) {
   );
 }
 
-export default MainPage;
+export {MainPage};

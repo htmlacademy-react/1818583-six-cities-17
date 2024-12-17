@@ -1,27 +1,22 @@
-import MainPage from '../../pages/main-page/main-page.tsx';
-import {OfferType} from '../../types.ts';
+import {MainPage} from '../../pages/main-page/main-page.tsx';
 import {Route, Routes} from 'react-router-dom';
-import LoginPage from '../../pages/login-page/login-page.tsx';
-import Page404 from '../../pages/page-404/page-404.tsx';
-import FavoritesPage from '../../pages/favorites-page/favorites-page.tsx';
-import OfferPage from '../../pages/offer-page/offer-page.tsx';
+import {LoginPage} from '../../pages/login-page/login-page.tsx';
+import {Page404} from '../../pages/page-404/page-404.tsx';
+import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
+import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
 import {APP_PAGES} from '../../const.ts';
-import PrivateRoute from '../private-route/private-route.tsx';
-
-type Props = {
-  offers: OfferType[];
-}
+import {PrivateRoute} from '../private-route/private-route.tsx';
 
 const HAS_ACCESS = true;
 
-function App({ offers }: Props) {
+function App() {
   return (
     <Routes>
-      <Route path={APP_PAGES.MAIN} element={<MainPage offers={offers}/>}/>
+      <Route path={APP_PAGES.MAIN} element={<MainPage />}/>
       <Route path={APP_PAGES.LOGIN} element={<LoginPage />}/>
       <Route path={APP_PAGES.FAVORITES} element={
         <PrivateRoute hasAccess={HAS_ACCESS}>
-          <FavoritesPage offers={offers}/>
+          <FavoritesPage />
         </PrivateRoute>
       }
       />
@@ -31,4 +26,4 @@ function App({ offers }: Props) {
   );
 }
 
-export default App;
+export {App};

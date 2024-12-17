@@ -33,4 +33,4 @@ function Review({ data }: Props) {
   );
 }
 
-export default Review;
+export {Review};

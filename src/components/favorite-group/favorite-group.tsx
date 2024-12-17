@@ -1,5 +1,5 @@
 import {OfferType} from '../../types.ts';
-import OfferCard from '../offer-card/offer-card.tsx';
+import {OfferCard} from '../offer-card/offer-card.tsx';
 import {Link} from 'react-router-dom';
 
 type Props = {
@@ -26,4 +26,4 @@ function FavoriteGroup({offers, city}: Props) {
   );
 }
 
-export default FavoriteGroup;
+export {FavoriteGroup};

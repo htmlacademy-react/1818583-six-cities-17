@@ -1,14 +1,13 @@
-import Header from '../../components/header/header.tsx';
-import Footer from '../../components/footer/footer.tsx';
+import {Header} from '../../components/header/header.tsx';
+import {Footer} from '../../components/footer/footer.tsx';
 import {OfferType} from '../../types.ts';
-import FavoriteGroup from '../../components/favorite-group/favorite-group.tsx';
+import {FavoriteGroup} from '../../components/favorite-group/favorite-group.tsx';
 import {getOfferGroups} from '../../adaptors.ts';
+import {useAppSelector} from '../../hooks/useAppSelector.ts';
 
-type Props = {
-  offers: OfferType[];
-}
+function FavoritesPage() {
+  const offers = useAppSelector((state) => state.offers);
 
-function FavoritesPage({offers}: Props) {
   const offerGroups = getOfferGroups(offers);
 
   return (
@@ -35,4 +34,4 @@ function FavoritesPage({offers}: Props) {
   );
 }
 
-export default FavoritesPage;
+export {FavoritesPage};

@@ -55,4 +55,4 @@ function OfferCard({ offer, cardType, onActiveOffer = () => {} }: Props) {
   );
 }
 
-export default OfferCard;
+export {OfferCard};

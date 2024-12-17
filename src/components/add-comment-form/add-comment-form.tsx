@@ -105,4 +105,4 @@ function AddCommentForm() {
   );
 }
 
-export default AddCommentForm;
+export {AddCommentForm};
