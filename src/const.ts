@@ -1,4 +1,10 @@
-import {CityLink, LocationType} from './types.ts';
+import {CityLink, LocationType, OfferType, SortByOptionType} from './types.ts';
+import {
+  sortOffersByPopular,
+  sortOffersByPriceHighLow,
+  sortOffersByPriceLowHigh,
+  sortOffersByRating
+} from './adaptors.ts';
 
 export enum APP_PAGES {
   MAIN = '/',
@@ -9,10 +15,10 @@ export enum APP_PAGES {
 }
 
 export const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+  'img/pin.svg';
 
 export const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+  'img/pin-active.svg';
 
 export const DEFAULT_CITY: LocationType = {
   latitude: 52.37454,
@@ -49,5 +55,35 @@ export const CITY_LINKS: CityLink[] = [
   {
     id: 'dusseldorf',
     displayName: 'Dusseldorf',
+  },
+];
+
+export enum SORT_BY {
+  POPULAR = 'popular',
+  PRICE_LOW_HIGH = 'priceLowHigh',
+  PRICE_HIGH_LOW = 'priceHighLow',
+  TOP = 'top',
+}
+
+export const SORT_BY_OPTIONS: SortByOptionType<OfferType>[] = [
+  {
+    sortBy: SORT_BY.POPULAR,
+    label: 'Popular',
+    sortingAction: sortOffersByPopular,
+  },
+  {
+    sortBy: SORT_BY.PRICE_HIGH_LOW,
+    label: 'Price: high to low',
+    sortingAction: sortOffersByPriceHighLow,
+  },
+  {
+    sortBy: SORT_BY.PRICE_LOW_HIGH,
+    label: 'Price: low to high',
+    sortingAction: sortOffersByPriceLowHigh,
+  },
+  {
+    sortBy: SORT_BY.TOP,
+    label: 'Top rated first',
+    sortingAction: sortOffersByRating,
   },
 ];
