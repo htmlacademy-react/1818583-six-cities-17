@@ -1,14 +1,15 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {AppStore} from './types.ts';
-import {changeCity, setLoading, setOffersList, setSortOffersBy} from './action.ts';
-import {OFFERS_MOCK} from '../mocks/offers.ts';
-import {SORT_BY} from '../const.ts';
+import {changeCity, setAuthStatus, setError, setLoading, setOffersList, setSortOffersBy} from './action.ts';
+import {AuthStatus, SORT_BY} from '../const.ts';
 
 const initialState: AppStore = {
   city: 'paris',
-  offers: OFFERS_MOCK,
+  offers: [],
   sortOffersBy: SORT_BY.POPULAR,
   loading: true,
+  authorizationStatus: AuthStatus.UNKNOWN,
+  error: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -24,6 +25,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setLoading, (state, { payload }) => {
       state.loading = payload;
+    })
+    .addCase(setAuthStatus, (state, { payload }) => {
+      state.authorizationStatus = payload;
+    })
+    .addCase(setError, (state, { payload }) => {
+      state.error = payload;
     });
 });
 

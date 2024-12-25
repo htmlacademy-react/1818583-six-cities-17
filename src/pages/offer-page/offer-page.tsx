@@ -2,27 +2,33 @@ import {Header} from '../../components/header/header.tsx';
 import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
 import {REVIEWS_LIST} from '../../mocks/reviews.ts';
 import {CityMap} from '../../components/city-map/city-map.tsx';
-import {OFFERS_MOCK} from '../../mocks/offers.ts';
 import {Point} from '../../types.ts';
 import {OtherPlacesList} from '../../components/other-places-list/other-places-list.tsx';
-
-const OFFER_MOCK = OFFERS_MOCK[0];
-
-const CITY = OFFER_MOCK.city.location;
-
-const OFFERS_NEARBY = OFFERS_MOCK.slice(1, 4);
-
-const POINTS_NEARBY = OFFERS_NEARBY.map((offer) => ({
-  id: offer.id,
-  location: offer.location,
-}));
-
-const POINTS: Point[] = [{
-  id: OFFER_MOCK.id,
-  location: OFFER_MOCK.location,
-}, ...POINTS_NEARBY];
+import {useAppSelector} from '../../hooks/useAppSelector.ts';
 
 function OfferPage() {
+  const offers = useAppSelector((state) => state.offers);
+
+  if (offers.length === 0) {
+    return null;
+  }
+
+  const OFFER_MOCK = offers[0];
+
+  const CITY = OFFER_MOCK.city.location;
+
+  const OFFERS_NEARBY = offers.slice(1, 4);
+
+  const POINTS_NEARBY = OFFERS_NEARBY.map((offer) => ({
+    id: offer.id,
+    location: offer.location,
+  }));
+
+  const POINTS: Point[] = [{
+    id: OFFER_MOCK.id,
+    location: OFFER_MOCK.location,
+  }, ...POINTS_NEARBY];
+
   return (
     <div className="page">
       <Header />

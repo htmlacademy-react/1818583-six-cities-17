@@ -87,3 +87,11 @@ export const SORT_BY_OPTIONS: SortByOptionType<OfferType>[] = [
     sortingAction: sortOffersByRating,
   },
 ];
+
+export enum AuthStatus {
+  AUTH = 'auth',
+  NO_AUTH = 'noAuth',
+  UNKNOWN = 'unknown',
+}
+
+export const TIMEOUT_SHOW_ERROR = 2000;
