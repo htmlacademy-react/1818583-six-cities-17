@@ -1,9 +1,9 @@
 import {Header} from '../../components/header/header.tsx';
 import {Footer} from '../../components/footer/footer.tsx';
-import {OfferType} from '../../types.ts';
 import {FavoriteGroup} from '../../components/favorite-group/favorite-group.tsx';
 import {getOfferGroups} from '../../adaptors.ts';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {OfferType} from '../../api/types.ts';
 
 function FavoritesPage() {
   const offers = useAppSelector((state) => state.offers);

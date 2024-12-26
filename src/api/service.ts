@@ -1,9 +1,9 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
-import {API_TIMEOUT, API_URL} from './const.ts';
+import {API_TIMEOUT, API_URL, ApiRoutes, AuthStatus} from './const.ts';
 import {getToken} from './token.ts';
-import { StatusCodes } from 'http-status-codes';
+import {StatusCodes} from 'http-status-codes';
 import {store} from '../store';
-import {setError} from '../store/action.ts';
+import {setAuthStatus, setError} from '../store/action.ts';
 import {clearErrorAction} from './actions.ts';
 
 const StatusCodeMapping: Record<number, boolean> = {
@@ -38,6 +38,10 @@ export const createApi = (): AxiosInstance => {
       if (error.response && shouldDisplayError(error.response)) {
         store.dispatch(setError(error.response.data.message));
         store.dispatch(clearErrorAction());
+
+        if (error.config?.url === ApiRoutes.LOGIN) {
+          store.dispatch(setAuthStatus(AuthStatus.NO_AUTH));
+        }
       }
     }
   );

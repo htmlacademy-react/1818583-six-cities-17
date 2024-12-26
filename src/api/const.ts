@@ -7,3 +7,9 @@ export enum ApiRoutes {
   LOGIN = '/login',
   LOGOUT = '/logout',
 }
+
+export enum AuthStatus {
+  AUTH = 'auth',
+  NO_AUTH = 'noAuth',
+  UNKNOWN = 'unknown',
+}

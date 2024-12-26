@@ -1,10 +1,11 @@
-import {CityLink, LocationType, OfferType, SortByOptionType} from './types.ts';
+import {CityLink, SortByOptionType} from './types.ts';
 import {
   sortOffersByPopular,
   sortOffersByPriceHighLow,
   sortOffersByPriceLowHigh,
   sortOffersByRating
 } from './adaptors.ts';
+import {LocationType, OfferType} from './api/types.ts';
 
 export enum APP_PAGES {
   MAIN = '/',
@@ -87,11 +88,5 @@ export const SORT_BY_OPTIONS: SortByOptionType<OfferType>[] = [
     sortingAction: sortOffersByRating,
   },
 ];
-
-export enum AuthStatus {
-  AUTH = 'auth',
-  NO_AUTH = 'noAuth',
-  UNKNOWN = 'unknown',
-}
 
 export const TIMEOUT_SHOW_ERROR = 2000;

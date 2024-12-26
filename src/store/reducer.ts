@@ -1,7 +1,16 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {AppStore} from './types.ts';
-import {changeCity, setAuthStatus, setError, setLoading, setOffersList, setSortOffersBy} from './action.ts';
-import {AuthStatus, SORT_BY} from '../const.ts';
+import {
+  changeCity,
+  setAuthStatus,
+  setError,
+  setLoading,
+  setOffersList,
+  setSortOffersBy,
+  setUserData
+} from './action.ts';
+import {SORT_BY} from '../const.ts';
+import {AuthStatus} from '../api/const.ts';
 
 const initialState: AppStore = {
   city: 'paris',
@@ -10,6 +19,7 @@ const initialState: AppStore = {
   loading: true,
   authorizationStatus: AuthStatus.UNKNOWN,
   error: null,
+  userData: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -31,6 +41,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setError, (state, { payload }) => {
       state.error = payload;
+    })
+    .addCase(setUserData, (state, { payload }) => {
+      state.userData = payload;
     });
 });
 

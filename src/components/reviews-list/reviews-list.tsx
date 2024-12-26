@@ -1,6 +1,6 @@
 import {AddCommentForm} from '../add-comment-form/add-comment-form.tsx';
 import {Review} from '../review/review.tsx';
-import {ReviewType} from '../../types.ts';
+import {ReviewType} from '../../api/types.ts';
 
 type Props = {
   list: ReviewType[];

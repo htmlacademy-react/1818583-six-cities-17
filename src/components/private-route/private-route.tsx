@@ -1,7 +1,8 @@
 import {Navigate} from 'react-router-dom';
 import {ReactNode} from 'react';
-import {APP_PAGES, AuthStatus} from '../../const.ts';
+import {APP_PAGES} from '../../const.ts';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {AuthStatus} from '../../api/const.ts';
 
 type Props = {
   children: ReactNode;

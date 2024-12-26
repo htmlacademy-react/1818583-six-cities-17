@@ -1,5 +1,5 @@
-import {CityName, OfferType} from './types.ts';
 import {CITY_LINKS, SORT_BY, SORT_BY_OPTIONS} from './const.ts';
+import {CityName, OfferType} from './api/types.ts';
 
 type OfferGroups = Record<CityName, OfferType[]>;
 

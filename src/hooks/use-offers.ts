@@ -1,7 +1,8 @@
 import {useAppSelector} from './useAppSelector.ts';
 import {filterOffersByCity, getSortedOffers} from '../adaptors.ts';
-import {LocationType, OfferType, Point} from '../types.ts';
 import {DEFAULT_CITY} from '../const.ts';
+import {LocationType, OfferType} from '../api/types.ts';
+import {Point} from '../types.ts';
 
 type ReturnOffers = {
   offers: OfferType[];

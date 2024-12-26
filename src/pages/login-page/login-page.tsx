@@ -1,9 +1,10 @@
 import {Link, Navigate} from 'react-router-dom';
-import {APP_PAGES, AuthStatus} from '../../const.ts';
+import {APP_PAGES} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
 import {loginAction} from '../../api/actions.ts';
 import {FormEvent, useRef} from 'react';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {AuthStatus} from '../../api/const.ts';
 
 function LoginPage() {
   const loginRef = useRef<HTMLInputElement | null>(null);

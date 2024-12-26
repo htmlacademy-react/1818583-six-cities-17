@@ -1,4 +1,4 @@
-import {ReviewType} from '../../types.ts';
+import {ReviewType} from '../../api/types.ts';
 
 type Props = {
   data: ReviewType;

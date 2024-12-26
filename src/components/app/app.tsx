@@ -4,13 +4,14 @@ import {LoginPage} from '../../pages/login-page/login-page.tsx';
 import {Page404} from '../../pages/page-404/page-404.tsx';
 import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
 import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
-import {APP_PAGES, AuthStatus} from '../../const.ts';
+import {APP_PAGES} from '../../const.ts';
 import {PrivateRoute} from '../private-route/private-route.tsx';
 import {checkAuthAction, fetchOffersAction} from '../../api/actions.ts';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
 import {Spinner} from '../spinner/spinner.tsx';
 import {useEffect} from 'react';
 import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
+import {AuthStatus} from '../../api/const.ts';
 
 function App() {
   const loading = useAppSelector((state) => state.loading);

@@ -1,5 +1,6 @@
-import {OfferType} from '../types.ts';
-import {AuthStatus, SORT_BY} from '../const.ts';
+import {SORT_BY} from '../const.ts';
+import {OfferType, UserData} from '../api/types.ts';
+import {AuthStatus} from '../api/const.ts';
 
 export type AppStore = {
   city: string;
@@ -8,4 +9,5 @@ export type AppStore = {
   loading: boolean;
   authorizationStatus: AuthStatus;
   error: string | null;
+  userData: UserData | null;
 }
