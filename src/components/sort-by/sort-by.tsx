@@ -3,13 +3,14 @@ import './soty-by-style.css';
 import {SORT_BY, SORT_BY_OPTIONS} from '../../const.ts';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
 import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
-import {setSortOffersBy} from '../../store/action.ts';
 import {getSortByLabel} from '../../adaptors.ts';
+import {selectSortOffersBy} from '../../store/selectors.ts';
+import {setSortOffersBy} from '../../store/reducer.ts';
 
 function SortBy() {
   const [open, setOpen] = useState<boolean>(false);
 
-  const sortBy = useAppSelector((state) => state.sortOffersBy);
+  const sortBy = useAppSelector(selectSortOffersBy);
 
   const dispatch = useAppDispatch();
 

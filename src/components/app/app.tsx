@@ -6,24 +6,26 @@ import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
 import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
 import {APP_PAGES} from '../../const.ts';
 import {PrivateRoute} from '../private-route/private-route.tsx';
-import {fetchOffersAction} from '../../api/actions.ts';
+import {checkAuthAction, fetchOffersAction} from '../../api/actions.ts';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
 import {Spinner} from '../spinner/spinner.tsx';
 import {useEffect} from 'react';
 import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
-
-const HAS_ACCESS = true;
+import {AuthStatus} from '../../api/const.ts';
+import {selectAuthStatus, selectLoading} from '../../store/selectors.ts';
 
 function App() {
-  const loading = useAppSelector((state) => state.loading);
+  const loading = useAppSelector(selectLoading);
+  const authStatus = useAppSelector(selectAuthStatus);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(checkAuthAction());
     dispatch(fetchOffersAction());
   }, [dispatch]);
 
-  if (loading) {
+  if (loading || authStatus === AuthStatus.UNKNOWN) {
     return <Spinner />;
   }
 
@@ -32,7 +34,7 @@ function App() {
       <Route path={APP_PAGES.MAIN} element={<MainPage />}/>
       <Route path={APP_PAGES.LOGIN} element={<LoginPage />}/>
       <Route path={APP_PAGES.FAVORITES} element={
-        <PrivateRoute hasAccess={HAS_ACCESS}>
+        <PrivateRoute>
           <FavoritesPage />
         </PrivateRoute>
       }

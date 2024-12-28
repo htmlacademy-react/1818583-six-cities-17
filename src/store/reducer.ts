@@ -1,30 +1,88 @@
-import {createReducer} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppStore} from './types.ts';
-import {changeCity, setLoading, setOffersList, setSortOffersBy} from './action.ts';
-import {OFFERS_MOCK} from '../mocks/offers.ts';
 import {SORT_BY} from '../const.ts';
+import {AuthStatus} from '../api/const.ts';
+import {checkAuthAction, fetchOffersAction, loginAction, logoutAction} from '../api/actions.ts';
+import {OfferType, UserData} from '../api/types.ts';
 
 const initialState: AppStore = {
   city: 'paris',
-  offers: OFFERS_MOCK,
+  offers: [],
   sortOffersBy: SORT_BY.POPULAR,
   loading: true,
+  authStatus: AuthStatus.UNKNOWN,
+  error: false,
+  userData: null,
 };
 
-const reducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(changeCity, (state, { payload }) => {
+const appSlice = createSlice({
+  name: 'appSlice',
+  initialState,
+  reducers: {
+    changeCity(state, { payload }: PayloadAction<string>) {
       state.city = payload;
-    })
-    .addCase(setOffersList, (state, { payload }) => {
-      state.offers = payload;
-    })
-    .addCase(setSortOffersBy, (state, { payload }) => {
+    },
+    setSortOffersBy(state, { payload }: PayloadAction<SORT_BY>) {
       state.sortOffersBy = payload;
-    })
-    .addCase(setLoading, (state, { payload }) => {
-      state.loading = payload;
-    });
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOffersAction.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(fetchOffersAction.fulfilled, (state, { payload }: PayloadAction<OfferType[]>) => {
+        state.offers = payload;
+        state.loading = false;
+      })
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      })
+      .addCase(checkAuthAction.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(checkAuthAction.fulfilled, (state, { payload }: PayloadAction<UserData>) => {
+        state.userData = payload;
+        state.loading = false;
+        state.authStatus = AuthStatus.AUTH;
+      })
+      .addCase(checkAuthAction.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+        state.authStatus = AuthStatus.NO_AUTH;
+      })
+      .addCase(loginAction.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(loginAction.fulfilled, (state, { payload }: PayloadAction<UserData>) => {
+        state.userData = payload;
+        state.loading = false;
+        state.authStatus = AuthStatus.AUTH;
+      })
+      .addCase(loginAction.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+        state.authStatus = AuthStatus.NO_AUTH;
+      })
+      .addCase(logoutAction.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(logoutAction.fulfilled, (state) => {
+        state.authStatus = AuthStatus.NO_AUTH;
+        state.userData = null;
+        state.loading = false;
+      })
+      .addCase(logoutAction.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      });
+  },
 });
 
-export {reducer};
+export const { changeCity, setSortOffersBy } = appSlice.actions;
+export { appSlice };

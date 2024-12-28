@@ -7,11 +7,12 @@ import {getCityName} from '../../adaptors.ts';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
 import {SortBy} from '../../components/sort-by/sort-by.tsx';
 import {useOffers} from '../../hooks/use-offers.ts';
+import {selectCity} from '../../store/selectors.ts';
 
 function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
-  const cityId = useAppSelector((state) => state.city);
+  const cityId = useAppSelector(selectCity);
 
   const { offers, city, points} = useOffers();
 
