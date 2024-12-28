@@ -89,4 +89,6 @@ export const SORT_BY_OPTIONS: SortByOptionType<OfferType>[] = [
   },
 ];
 
-export const TIMEOUT_SHOW_ERROR = 2000;
+export const MAP_URL_TEMPLATE = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+export const MAP_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';

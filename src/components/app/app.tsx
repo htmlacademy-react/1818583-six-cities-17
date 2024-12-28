@@ -12,10 +12,11 @@ import {Spinner} from '../spinner/spinner.tsx';
 import {useEffect} from 'react';
 import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
 import {AuthStatus} from '../../api/const.ts';
+import {selectAuthStatus, selectLoading} from '../../store/selectors.ts';
 
 function App() {
-  const loading = useAppSelector((state) => state.loading);
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const loading = useAppSelector(selectLoading);
+  const authStatus = useAppSelector(selectAuthStatus);
 
   const dispatch = useAppDispatch();
 

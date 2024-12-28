@@ -7,7 +7,7 @@ export type AppStore = {
   offers: OfferType[];
   sortOffersBy: SORT_BY;
   loading: boolean;
-  authorizationStatus: AuthStatus;
-  error: string | null;
+  authStatus: AuthStatus;
+  error: boolean;
   userData: UserData | null;
 }

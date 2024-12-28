@@ -5,9 +5,10 @@ import {CityMap} from '../../components/city-map/city-map.tsx';
 import {Point} from '../../types.ts';
 import {OtherPlacesList} from '../../components/other-places-list/other-places-list.tsx';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {selectOffers} from '../../store/selectors.ts';
 
 function OfferPage() {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(selectOffers);
 
   if (offers.length === 0) {
     return null;

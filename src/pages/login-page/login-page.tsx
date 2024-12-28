@@ -5,12 +5,13 @@ import {loginAction} from '../../api/actions.ts';
 import {FormEvent, useRef} from 'react';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
 import {AuthStatus} from '../../api/const.ts';
+import {selectAuthStatus} from '../../store/selectors.ts';
 
 function LoginPage() {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const authStatus = useAppSelector(selectAuthStatus);
 
   const dispatch = useAppDispatch();
 

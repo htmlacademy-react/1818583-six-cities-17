@@ -23,9 +23,9 @@ export function getCityName(cityId?: string) {
   return CITY_LINKS.find((link) => link.id === cityId)?.displayName || '';
 }
 
-export function filterOffersByCity(offers: OfferType[], cityId?: string): OfferType[] {
+export function filterOffersByCity(offers?: OfferType[], cityId?: string): OfferType[] {
   const cityName = getCityName(cityId);
-  return offers.filter((offer) => offer.city.name === cityName) || [];
+  return offers?.filter((offer) => offer.city.name === cityName) || [];
 }
 
 export function getSortByLabel(sortBy: SORT_BY) {

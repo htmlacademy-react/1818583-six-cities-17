@@ -5,10 +5,11 @@ import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
 import {logoutAction} from '../../api/actions.ts';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
 import {AuthStatus} from '../../api/const.ts';
+import {selectAuthStatus, selectUserData} from '../../store/selectors.ts';
 
 function Header() {
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const user = useAppSelector((state) => state.userData);
+  const authStatus = useAppSelector(selectAuthStatus);
+  const user = useAppSelector(selectUserData);
   const isAuth = authStatus === AuthStatus.AUTH;
 
   const dispatch = useAppDispatch();

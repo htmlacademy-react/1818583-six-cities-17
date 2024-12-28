@@ -4,9 +4,10 @@ import {FavoriteGroup} from '../../components/favorite-group/favorite-group.tsx'
 import {getOfferGroups} from '../../adaptors.ts';
 import {useAppSelector} from '../../hooks/useAppSelector.ts';
 import {OfferType} from '../../api/types.ts';
+import {selectOffers} from '../../store/selectors.ts';
 
 function FavoritesPage() {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(selectOffers);
 
   const offerGroups = getOfferGroups(offers);
 

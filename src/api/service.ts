@@ -1,14 +1,12 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
-import {API_TIMEOUT, API_URL, ApiRoutes, AuthStatus} from './const.ts';
+import {API_TIMEOUT, API_URL} from './const.ts';
 import {getToken} from './token.ts';
 import {StatusCodes} from 'http-status-codes';
-import {store} from '../store';
-import {setAuthStatus, setError} from '../store/action.ts';
-import {clearErrorAction} from './actions.ts';
+import {toast} from 'react-toastify';
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.UNAUTHORIZED]: false,
   [StatusCodes.NOT_FOUND]: true
 };
 
@@ -36,13 +34,11 @@ export const createApi = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError<{message: string}>) => {
       if (error.response && shouldDisplayError(error.response)) {
-        store.dispatch(setError(error.response.data.message));
-        store.dispatch(clearErrorAction());
-
-        if (error.config?.url === ApiRoutes.LOGIN) {
-          store.dispatch(setAuthStatus(AuthStatus.NO_AUTH));
-        }
+        const errorMessage = error.response.data;
+        toast.warn(errorMessage.message);
       }
+
+      throw error;
     }
   );
 
