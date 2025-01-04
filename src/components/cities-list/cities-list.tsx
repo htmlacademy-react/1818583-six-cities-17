@@ -1,7 +1,7 @@
 import {CITY_LINKS} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
-import {changeCity} from '../../store/action.ts';
 import './cities-list-style.css';
+import {changeCity} from '../../store/reducer.ts';
 
 type Props = {
   cityId?: string;

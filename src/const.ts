@@ -1,10 +1,11 @@
-import {CityLink, LocationType, OfferType, SortByOptionType} from './types.ts';
+import {CityLink, SortByOptionType} from './types.ts';
 import {
   sortOffersByPopular,
   sortOffersByPriceHighLow,
   sortOffersByPriceLowHigh,
   sortOffersByRating
 } from './adaptors.ts';
+import {LocationType, OfferType} from './api/types.ts';
 
 export enum APP_PAGES {
   MAIN = '/',
@@ -87,3 +88,7 @@ export const SORT_BY_OPTIONS: SortByOptionType<OfferType>[] = [
     sortingAction: sortOffersByRating,
   },
 ];
+
+export const MAP_URL_TEMPLATE = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+export const MAP_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
