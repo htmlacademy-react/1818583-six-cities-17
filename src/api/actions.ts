@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AuthData, OfferType, ThunkOptions, UserData} from './types.ts';
+import {AuthData, OfferDetailsType, OfferType, ThunkOptions, UserData} from './types.ts';
 import {ApiRoutes} from './const.ts';
 import {dropToken, saveToken} from './token.ts';
 
@@ -9,6 +9,14 @@ export const fetchOffersAction = createAppAsyncThunk<OfferType[], undefined>(
   'offers/get',
   async (_arg, {extra: api}) => {
     const response = await api.get<OfferType[]>(ApiRoutes.OFFERS);
+    return response?.data;
+  }
+);
+
+export const fetchOfferAction = createAppAsyncThunk<OfferDetailsType, { offerId: string }>(
+  'offer/get',
+  async ({ offerId }, {extra: api}) => {
+    const response = await api.get<OfferDetailsType>(`${ApiRoutes.OFFERS}/${offerId}`);
     return response?.data;
   }
 );

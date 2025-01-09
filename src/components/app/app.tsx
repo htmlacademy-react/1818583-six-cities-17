@@ -7,10 +7,10 @@ import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
 import {APP_PAGES} from '../../const.ts';
 import {PrivateRoute} from '../private-route/private-route.tsx';
 import {checkAuthAction, fetchOffersAction} from '../../api/actions.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {Spinner} from '../spinner/spinner.tsx';
 import {useEffect} from 'react';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {AuthStatus} from '../../api/const.ts';
 import {selectAuthStatus, selectLoading} from '../../store/selectors.ts';
 

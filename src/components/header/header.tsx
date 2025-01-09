@@ -1,9 +1,9 @@
 import {Link, useNavigate} from 'react-router-dom';
 import {APP_PAGES} from '../../const.ts';
 import './header-style.css';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {logoutAction} from '../../api/actions.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
 import {selectAuthStatus, selectUserData} from '../../store/selectors.ts';
 

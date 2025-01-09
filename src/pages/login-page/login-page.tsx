@@ -1,9 +1,9 @@
 import {Link, Navigate} from 'react-router-dom';
 import {APP_PAGES} from '../../const.ts';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {loginAction} from '../../api/actions.ts';
 import {FormEvent, useRef} from 'react';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
 import {selectAuthStatus} from '../../store/selectors.ts';
 

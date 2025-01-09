@@ -32,7 +32,7 @@ export type CityType = {
   location: LocationType;
 }
 
-export type OfferType = {
+type OfferCommonType = {
   id: string;
   title: string;
   type: string;
@@ -42,8 +42,24 @@ export type OfferType = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  previewImage: string;
 }
+
+export type OfferType = {
+  previewImage: string;
+} & OfferCommonType
+
+export type OfferDetailsType = {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  images: string[];
+  maxAdults: number;
+} & OfferCommonType
 
 export type CityName = string;
 

@@ -4,6 +4,8 @@ export const selectCity = (state: RootState) => state.app.city;
 
 export const selectOffers = (state: RootState) => state.app.offers;
 
+export const selectOffer = (state: RootState) => state.app.offer;
+
 export const selectSortOffersBy = (state: RootState) => state.app.sortOffersBy;
 
 // todo непонятно, как обрабатывать такие ошибки

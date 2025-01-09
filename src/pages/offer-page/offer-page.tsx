@@ -4,31 +4,47 @@ import {REVIEWS_LIST} from '../../mocks/reviews.ts';
 import {CityMap} from '../../components/city-map/city-map.tsx';
 import {Point} from '../../types.ts';
 import {OtherPlacesList} from '../../components/other-places-list/other-places-list.tsx';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
-import {selectOffers} from '../../store/selectors.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
+import {selectAuthStatus, selectLoading, selectOffer} from '../../store/selectors.ts';
+import {useEffect} from 'react';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
+import {fetchOfferAction} from '../../api/actions.ts';
+import {useParams} from 'react-router-dom';
+import {setOffer} from '../../store/reducer.ts';
 
 function OfferPage() {
-  const offers = useAppSelector(selectOffers);
+  const { id: offerId } = useParams();
 
-  if (offers.length === 0) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (offerId) {
+      dispatch(fetchOfferAction({ offerId }));
+    }
+  }, [dispatch, offerId]);
+
+  const offer = useAppSelector(selectOffer);
+
+  if (!offer) {
     return null;
   }
 
-  const OFFER_MOCK = offers[0];
+  console.log(offer);
+  // const authStatus = useAppSelector(selectAuthStatus);
 
-  const CITY = OFFER_MOCK.city.location;
+  // const CITY = offer.city.location;
 
-  const OFFERS_NEARBY = offers.slice(1, 4);
+  // const OFFERS_NEARBY = offers.slice(1, 4);
+  //
+  // const POINTS_NEARBY = OFFERS_NEARBY.map((offer) => ({
+  //   id: offer.id,
+  //   location: offer.location,
+  // }));
 
-  const POINTS_NEARBY = OFFERS_NEARBY.map((offer) => ({
-    id: offer.id,
-    location: offer.location,
-  }));
-
-  const POINTS: Point[] = [{
-    id: OFFER_MOCK.id,
-    location: OFFER_MOCK.location,
-  }, ...POINTS_NEARBY];
+  // const POINTS: Point[] = [{
+  //   id: offer.id,
+  //   location: offer.location,
+  // }, ...POINTS_NEARBY];
 
   return (
     <div className="page">
@@ -160,10 +176,10 @@ function OfferPage() {
               <ReviewsList list={REVIEWS_LIST}/>
             </div>
           </div>
-          <CityMap city={CITY} points={POINTS} activeOfferId={OFFER_MOCK.id} className='offer__map map'/>
+          {/*<CityMap city={CITY} points={POINTS} activeOfferId={offer.id} className='offer__map map'/>*/}
         </section>
         <div className="container">
-          <OtherPlacesList list={OFFERS_NEARBY}/>
+          {/*<OtherPlacesList list={OFFERS_NEARBY}/>*/}
         </div>
       </main>
     </div>

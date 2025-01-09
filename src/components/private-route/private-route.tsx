@@ -1,7 +1,7 @@
 import {Navigate} from 'react-router-dom';
 import {ReactNode} from 'react';
 import {APP_PAGES} from '../../const.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
 import {selectAuthStatus} from '../../store/selectors.ts';
 

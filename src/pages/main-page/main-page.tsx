@@ -4,7 +4,7 @@ import {useState} from 'react';
 import {CityMap} from '../../components/city-map/city-map.tsx';
 import {CitiesList} from '../../components/cities-list/cities-list.tsx';
 import {getCityName} from '../../adaptors.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {SortBy} from '../../components/sort-by/sort-by.tsx';
 import {useOffers} from '../../hooks/use-offers.ts';
 import {selectCity} from '../../store/selectors.ts';

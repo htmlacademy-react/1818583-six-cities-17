@@ -2,7 +2,7 @@ import {Header} from '../../components/header/header.tsx';
 import {Footer} from '../../components/footer/footer.tsx';
 import {FavoriteGroup} from '../../components/favorite-group/favorite-group.tsx';
 import {getOfferGroups} from '../../adaptors.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {OfferType} from '../../api/types.ts';
 import {selectOffers} from '../../store/selectors.ts';
 
