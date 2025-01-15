@@ -13,13 +13,16 @@ export type AuthData = {
   password: string;
 }
 
-export type UserData = {
+type UserDataCommon = {
+  name: string;
   avatarUrl: string;
+  isPro: boolean;
+}
+
+export type UserData = {
   email: string;
   token: Token;
-  isPro: boolean;
-  name: string;
-}
+} & UserDataCommon
 
 export type LocationType = {
   latitude: number;
@@ -63,14 +66,14 @@ export type OfferDetailsType = {
 
 export type CityName = string;
 
-export type ReviewType = {
-  id: string;
+export type CommentPayloadType = {
+  comment: string;
   rating: number;
-  review: string;
-  userName: string;
-  userAvatarUrl: string;
-  date: {
-    value: string;
-    display: string;
-  };
 }
+
+export type CommentType = {
+  id: string;
+  date: string;
+  user: UserDataCommon;
+} & CommentPayloadType
+

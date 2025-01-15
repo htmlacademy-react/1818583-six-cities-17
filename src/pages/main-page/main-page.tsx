@@ -7,11 +7,15 @@ import {getCityName} from '../../adaptors.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {SortBy} from '../../components/sort-by/sort-by.tsx';
 import {useOffers} from '../../hooks/use-offers.ts';
-import {selectCity} from '../../store/selectors.ts';
+import {selectAuthStatus, selectCity, selectLoading} from '../../store/selectors.ts';
+import {AuthStatus} from '../../api/const.ts';
+import {Spinner} from '../../components/spinner/spinner.tsx';
 
 function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
+  const loading = useAppSelector(selectLoading);
+  const authStatus = useAppSelector(selectAuthStatus);
   const cityId = useAppSelector(selectCity);
 
   const { offers, city, points} = useOffers();
@@ -19,6 +23,10 @@ function MainPage() {
   const handleActiveOffer = (id: string | null) => {
     setActiveOfferId(id);
   };
+
+  if (loading || authStatus === AuthStatus.UNKNOWN) {
+    return <Spinner />;
+  }
 
   return (
     <div className="page page--gray page--main">

@@ -6,10 +6,11 @@ export const selectOffers = (state: RootState) => state.app.offers;
 
 export const selectOffer = (state: RootState) => state.app.offer;
 
-export const selectSortOffersBy = (state: RootState) => state.app.sortOffersBy;
+export const selectOffersNearby = (state: RootState) => state.app.offersNearby;
 
-// todo непонятно, как обрабатывать такие ошибки
-export const selectError = (state: RootState) => state.app.error;
+export const selectOfferComments = (state: RootState) => state.app.offerComments;
+
+export const selectSortOffersBy = (state: RootState) => state.app.sortOffersBy;
 
 export const selectUserData = (state: RootState) => state.app.userData;
 
