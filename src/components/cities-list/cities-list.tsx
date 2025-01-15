@@ -1,5 +1,5 @@
 import {CITY_LINKS} from '../../const.ts';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import './cities-list-style.css';
 import {changeCity} from '../../store/reducer.ts';
 

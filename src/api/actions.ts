@@ -1,5 +1,13 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AuthData, OfferType, ThunkOptions, UserData} from './types.ts';
+import {
+  AuthData,
+  CommentPayloadType,
+  CommentType,
+  OfferDetailsType,
+  OfferType,
+  ThunkOptions,
+  UserData
+} from './types.ts';
 import {ApiRoutes} from './const.ts';
 import {dropToken, saveToken} from './token.ts';
 
@@ -9,6 +17,38 @@ export const fetchOffersAction = createAppAsyncThunk<OfferType[], undefined>(
   'offers/get',
   async (_arg, {extra: api}) => {
     const response = await api.get<OfferType[]>(ApiRoutes.OFFERS);
+    return response?.data;
+  }
+);
+
+export const fetchOfferAction = createAppAsyncThunk<OfferDetailsType, { offerId: string }>(
+  'offer/get',
+  async ({ offerId }, {extra: api}) => {
+    const response = await api.get<OfferDetailsType>(`${ApiRoutes.OFFERS}/${offerId}`);
+    return response?.data;
+  }
+);
+
+export const fetchOffersNearbyAction = createAppAsyncThunk<OfferType[], { offerId: string }>(
+  'offer/nearby',
+  async ({ offerId }, {extra: api}) => {
+    const response = await api.get<OfferType[]>(`${ApiRoutes.OFFERS}/${offerId}/${ApiRoutes.NEARBY}`);
+    return response?.data;
+  }
+);
+
+export const fetchOfferCommentsAction = createAppAsyncThunk<CommentType[], { offerId: string }>(
+  'offer/comments',
+  async ({ offerId }, {extra: api}) => {
+    const response = await api.get<CommentType[]>(`${ApiRoutes.COMMENTS}/${offerId}`);
+    return response?.data;
+  }
+);
+
+export const addOfferCommentAction = createAppAsyncThunk<CommentPayloadType, { offerId: string; payload: CommentPayloadType }>(
+  'offer/addComment',
+  async ({ offerId, payload }, {extra: api}) => {
+    const response = await api.post<CommentPayloadType>(`${ApiRoutes.COMMENTS}/${offerId}`, payload);
     return response?.data;
   }
 );

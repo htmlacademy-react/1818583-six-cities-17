@@ -2,16 +2,25 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppStore} from './types.ts';
 import {SORT_BY} from '../const.ts';
 import {AuthStatus} from '../api/const.ts';
-import {checkAuthAction, fetchOffersAction, loginAction, logoutAction} from '../api/actions.ts';
-import {OfferType, UserData} from '../api/types.ts';
+import {
+  checkAuthAction,
+  fetchOfferAction, fetchOfferCommentsAction,
+  fetchOffersAction,
+  fetchOffersNearbyAction,
+  loginAction,
+  logoutAction
+} from '../api/actions.ts';
+import {CommentType, OfferDetailsType, OfferType, UserData} from '../api/types.ts';
 
 const initialState: AppStore = {
   city: 'paris',
   offers: [],
+  offersNearby: [],
+  offerComments: [],
+  offer: null,
   sortOffersBy: SORT_BY.POPULAR,
   loading: true,
   authStatus: AuthStatus.UNKNOWN,
-  error: false,
   userData: null,
 };
 
@@ -30,7 +39,6 @@ const appSlice = createSlice({
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.loading = true;
-        state.error = false;
       })
       .addCase(fetchOffersAction.fulfilled, (state, { payload }: PayloadAction<OfferType[]>) => {
         state.offers = payload;
@@ -38,11 +46,32 @@ const appSlice = createSlice({
       })
       .addCase(fetchOffersAction.rejected, (state) => {
         state.loading = false;
-        state.error = true;
+      })
+      .addCase(fetchOfferAction.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchOfferAction.fulfilled, (state, { payload }: PayloadAction<OfferDetailsType>) => {
+        state.offer = payload;
+        state.loading = false;
+      })
+      .addCase(fetchOfferAction.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchOffersNearbyAction.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchOffersNearbyAction.fulfilled, (state, { payload }: PayloadAction<OfferType[]>) => {
+        state.offersNearby = payload;
+        state.loading = false;
+      })
+      .addCase(fetchOffersNearbyAction.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchOfferCommentsAction.fulfilled, (state, { payload }: PayloadAction<CommentType[]>) => {
+        state.offerComments = payload;
       })
       .addCase(checkAuthAction.pending, (state) => {
         state.loading = true;
-        state.error = false;
       })
       .addCase(checkAuthAction.fulfilled, (state, { payload }: PayloadAction<UserData>) => {
         state.userData = payload;
@@ -51,12 +80,10 @@ const appSlice = createSlice({
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.loading = false;
-        state.error = true;
         state.authStatus = AuthStatus.NO_AUTH;
       })
       .addCase(loginAction.pending, (state) => {
         state.loading = true;
-        state.error = false;
       })
       .addCase(loginAction.fulfilled, (state, { payload }: PayloadAction<UserData>) => {
         state.userData = payload;
@@ -65,12 +92,10 @@ const appSlice = createSlice({
       })
       .addCase(loginAction.rejected, (state) => {
         state.loading = false;
-        state.error = true;
         state.authStatus = AuthStatus.NO_AUTH;
       })
       .addCase(logoutAction.pending, (state) => {
         state.loading = true;
-        state.error = false;
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.authStatus = AuthStatus.NO_AUTH;
@@ -79,7 +104,6 @@ const appSlice = createSlice({
       })
       .addCase(logoutAction.rejected, (state) => {
         state.loading = false;
-        state.error = true;
       });
   },
 });

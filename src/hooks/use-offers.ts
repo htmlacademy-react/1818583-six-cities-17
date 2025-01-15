@@ -1,4 +1,4 @@
-import {useAppSelector} from './useAppSelector.ts';
+import {useAppSelector} from './use-app-selector.ts';
 import {filterOffersByCity, getCityName, getSortedOffers} from '../adaptors.ts';
 import {DEFAULT_CITY} from '../const.ts';
 import {LocationType, OfferType} from '../api/types.ts';

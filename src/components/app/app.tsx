@@ -1,23 +1,16 @@
 import {MainPage} from '../../pages/main-page/main-page.tsx';
 import {Route, Routes} from 'react-router-dom';
 import {LoginPage} from '../../pages/login-page/login-page.tsx';
-import {Page404} from '../../pages/page-404/page-404.tsx';
+import {NotFoundPage} from '../../pages/not-found-page/not-found-page.tsx';
 import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
 import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
-import {APP_PAGES} from '../../const.ts';
+import {AppPages} from '../../const.ts';
 import {PrivateRoute} from '../private-route/private-route.tsx';
 import {checkAuthAction, fetchOffersAction} from '../../api/actions.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
-import {Spinner} from '../spinner/spinner.tsx';
 import {useEffect} from 'react';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
-import {AuthStatus} from '../../api/const.ts';
-import {selectAuthStatus, selectLoading} from '../../store/selectors.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 
 function App() {
-  const loading = useAppSelector(selectLoading);
-  const authStatus = useAppSelector(selectAuthStatus);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -25,22 +18,18 @@ function App() {
     dispatch(fetchOffersAction());
   }, [dispatch]);
 
-  if (loading || authStatus === AuthStatus.UNKNOWN) {
-    return <Spinner />;
-  }
-
   return (
     <Routes>
-      <Route path={APP_PAGES.MAIN} element={<MainPage />}/>
-      <Route path={APP_PAGES.LOGIN} element={<LoginPage />}/>
-      <Route path={APP_PAGES.FAVORITES} element={
+      <Route path={AppPages.MAIN} element={<MainPage />}/>
+      <Route path={AppPages.LOGIN} element={<LoginPage />}/>
+      <Route path={AppPages.FAVORITES} element={
         <PrivateRoute>
           <FavoritesPage />
         </PrivateRoute>
       }
       />
-      <Route path={APP_PAGES.OFFER} element={<OfferPage />}/>
-      <Route path={APP_PAGES.PAGE_404} element={<Page404 />}/>
+      <Route path={AppPages.OFFER} element={<OfferPage />}/>
+      <Route path={AppPages.PAGE_404} element={<NotFoundPage />}/>
     </Routes>
   );
 }

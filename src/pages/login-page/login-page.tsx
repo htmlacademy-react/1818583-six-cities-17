@@ -1,16 +1,18 @@
 import {Link, Navigate} from 'react-router-dom';
-import {APP_PAGES} from '../../const.ts';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
+import {AppPages} from '../../const.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {loginAction} from '../../api/actions.ts';
 import {FormEvent, useRef} from 'react';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
-import {selectAuthStatus} from '../../store/selectors.ts';
+import {selectAuthStatus, selectLoading} from '../../store/selectors.ts';
+import {Spinner} from '../../components/spinner/spinner.tsx';
 
 function LoginPage() {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
+  const loading = useAppSelector(selectLoading);
   const authStatus = useAppSelector(selectAuthStatus);
 
   const dispatch = useAppDispatch();
@@ -27,7 +29,11 @@ function LoginPage() {
   };
 
   if (authStatus === AuthStatus.AUTH) {
-    return <Navigate to={APP_PAGES.MAIN} />;
+    return <Navigate to={AppPages.MAIN} />;
+  }
+
+  if (loading) {
+    return <Spinner />;
   }
 
   return (
@@ -36,7 +42,7 @@ function LoginPage() {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link" to={APP_PAGES.MAIN}>
+              <Link className="header__logo-link" to={AppPages.MAIN}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>

@@ -1,9 +1,9 @@
 import {Link, useNavigate} from 'react-router-dom';
-import {APP_PAGES} from '../../const.ts';
+import {AppPages} from '../../const.ts';
 import './header-style.css';
-import {useAppDispatch} from '../../hooks/useAppDispatch.ts';
+import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {logoutAction} from '../../api/actions.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
 import {selectAuthStatus, selectUserData} from '../../store/selectors.ts';
 
@@ -20,7 +20,7 @@ function Header() {
     if (isAuth) {
       dispatch(logoutAction());
     } else {
-      navigate(APP_PAGES.LOGIN);
+      navigate(AppPages.LOGIN);
     }
   };
 
@@ -29,7 +29,7 @@ function Header() {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className="header__logo-link header__logo-link--active" to={APP_PAGES.MAIN}>
+            <Link className="header__logo-link header__logo-link--active" to={AppPages.MAIN}>
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
@@ -38,10 +38,12 @@ function Header() {
               {
                 user ? (
                   <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to="#">
-                      <div className="header__avatar-wrapper user__avatar-wrapper" style={{ backgroundImage: user.avatarUrl }}>
+                    <Link className="header__nav-link header__nav-link--profile" to={AppPages.FAVORITES}>
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                        <img src={user.avatarUrl} alt=''/>
                       </div>
                       <span className="header__user-name user__name">{user.email}</span>
+                      {/*todo*/}
                       <span className="header__favorite-count">3</span>
                     </Link>
                   </li>

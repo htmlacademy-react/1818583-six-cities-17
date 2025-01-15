@@ -1,16 +1,16 @@
 import {Link} from 'react-router-dom';
-import {APP_PAGES} from '../../const.ts';
-import './page-404-style.css';
+import {AppPages} from '../../const.ts';
+import './not-found-page-style.css';
 
-function Page404() {
+function NotFoundPage() {
   return (
     <div className='root'>
       <h1 className='heading'>Страница не найдена</h1>
-      <Link to={APP_PAGES.MAIN} className='link'>
+      <Link to={AppPages.MAIN} className='link'>
         На главную
       </Link>
     </div>
   );
 }
 
-export {Page404};
+export {NotFoundPage};

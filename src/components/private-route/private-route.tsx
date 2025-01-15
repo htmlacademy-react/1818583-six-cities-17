@@ -1,7 +1,7 @@
 import {Navigate} from 'react-router-dom';
 import {ReactNode} from 'react';
-import {APP_PAGES} from '../../const.ts';
-import {useAppSelector} from '../../hooks/useAppSelector.ts';
+import {AppPages} from '../../const.ts';
+import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
 import {selectAuthStatus} from '../../store/selectors.ts';
 
@@ -12,7 +12,7 @@ type Props = {
 function PrivateRoute({children}: Props) {
   const authStatus = useAppSelector(selectAuthStatus);
 
-  return authStatus === AuthStatus.AUTH ? children : <Navigate to={APP_PAGES.LOGIN} />;
+  return authStatus !== AuthStatus.AUTH ? <Navigate to={AppPages.LOGIN} /> : children;
 }
 
 export {PrivateRoute};
