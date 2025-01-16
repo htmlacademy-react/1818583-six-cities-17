@@ -12,7 +12,8 @@ export enum AppPages {
   LOGIN = '/login',
   FAVORITES = '/favorites',
   OFFER = '/offer/:id',
-  PAGE_404 = '*',
+  PAGE_404 = '/404',
+  ANY_PAGE = '*',
 }
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';

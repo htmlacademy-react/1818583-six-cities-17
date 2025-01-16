@@ -18,6 +18,7 @@ import {Navigate, useParams} from 'react-router-dom';
 import {Spinner} from '../../components/spinner/spinner.tsx';
 import {AuthStatus} from '../../api/const.ts';
 import {getOfferCategory, mapComments} from '../../adaptors.ts';
+import {AppPages} from '../../const.ts';
 
 function OfferPage() {
   const { id: offerId } = useParams();
@@ -43,7 +44,7 @@ function OfferPage() {
   }
 
   if (!offer && !loading) {
-    return <Navigate to={'/404'} />;
+    return <Navigate to={AppPages.PAGE_404} />;
   }
 
   if (!offer) {
