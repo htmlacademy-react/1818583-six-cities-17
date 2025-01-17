@@ -1,4 +1,4 @@
-import {RootState} from "../index.ts";
+import {RootState} from '../index.ts';
 
 export const selectCity = (state: RootState) => state.app.city;
 
