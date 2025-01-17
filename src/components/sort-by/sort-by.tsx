@@ -1,11 +1,11 @@
-import {useState} from 'react';
+import {memo, useState} from 'react';
 import './soty-by-style.css';
 import {SORT_BY, SORT_BY_OPTIONS} from '../../const.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {getSortByLabel} from '../../adaptors.ts';
-import {selectSortOffersBy} from '../../store/selectors.ts';
-import {setSortOffersBy} from '../../store/reducer.ts';
+import {selectSortOffersBy} from '../../store/app-slice/selectors.ts';
+import {setSortOffersBy} from '../../store/app-slice/app-slice.ts';
 
 function SortBy() {
   const [open, setOpen] = useState<boolean>(false);
@@ -50,4 +50,5 @@ function SortBy() {
   );
 }
 
-export {SortBy};
+const MemoizedSortBy = memo(SortBy);
+export {MemoizedSortBy as SortBy};

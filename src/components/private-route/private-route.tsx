@@ -3,7 +3,7 @@ import {ReactNode} from 'react';
 import {AppPages} from '../../const.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
-import {selectAuthStatus} from '../../store/selectors.ts';
+import {selectAuthStatus} from '../../store/user-slice/selectors.ts';
 
 type Props = {
   children: ReactNode;

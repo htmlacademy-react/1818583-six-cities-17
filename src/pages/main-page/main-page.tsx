@@ -7,22 +7,25 @@ import {getCityName} from '../../adaptors.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {SortBy} from '../../components/sort-by/sort-by.tsx';
 import {useOffers} from '../../hooks/use-offers.ts';
-import {selectAuthStatus, selectCity, selectLoading} from '../../store/selectors.ts';
 import {AuthStatus} from '../../api/const.ts';
 import {Spinner} from '../../components/spinner/spinner.tsx';
+import {selectAuthStatus, selectIsLoadingUser} from '../../store/user-slice/selectors.ts';
+import {selectCity} from '../../store/app-slice/selectors.ts';
 
 function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
-  const loading = useAppSelector(selectLoading);
+  const isLoadingUser = useAppSelector(selectIsLoadingUser);
   const authStatus = useAppSelector(selectAuthStatus);
   const cityId = useAppSelector(selectCity);
 
-  const { offers, city, points} = useOffers();
+  const { offers, city, points, isLoadingOffers} = useOffers();
 
   const handleActiveOffer = (id: string | null) => {
     setActiveOfferId(id);
   };
+
+  const loading = isLoadingUser || isLoadingOffers;
 
   if (loading || authStatus === AuthStatus.UNKNOWN) {
     return <Spinner />;
@@ -36,7 +39,7 @@ function MainPage() {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList cityId={cityId}/>
+            <CitiesList />
           </section>
         </div>
         <div className="cities">

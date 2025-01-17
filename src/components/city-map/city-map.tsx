@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import {memo, useEffect, useRef} from 'react';
 import {useMap} from '../../hooks/use-map.ts';
 import {Point} from '../../types.ts';
 import leaflet, {layerGroup, Marker} from 'leaflet';
@@ -57,4 +57,5 @@ function CityMap({ activeOfferId, points, city, className }: Props) {
   );
 }
 
-export {CityMap};
+const MemoizedCityMap = memo(CityMap);
+export {MemoizedCityMap as CityMap};

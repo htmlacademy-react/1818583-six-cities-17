@@ -2,8 +2,8 @@ import {AddCommentForm} from '../add-comment-form/add-comment-form.tsx';
 import {Review} from '../review/review.tsx';
 import {CommentType} from '../../api/types.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import {selectAuthStatus} from '../../store/selectors.ts';
 import {AuthStatus} from '../../api/const.ts';
+import {selectAuthStatus} from '../../store/user-slice/selectors.ts';
 
 type Props = {
   list: CommentType[];
