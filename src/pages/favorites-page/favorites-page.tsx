@@ -4,12 +4,12 @@ import {FavoriteGroup} from '../../components/favorite-group/favorite-group.tsx'
 import {getOfferGroups} from '../../adaptors.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {OfferType} from '../../api/types.ts';
-import {selectLoading, selectOffers} from '../../store/selectors.ts';
 import {Spinner} from '../../components/spinner/spinner.tsx';
+import {selectIsLoadingOffers, selectOffers} from '../../store/offers-slice/selectors.ts';
 
 function FavoritesPage() {
   const offers = useAppSelector(selectOffers);
-  const loading = useAppSelector(selectLoading);
+  const loading = useAppSelector(selectIsLoadingOffers);
 
   const offerGroups = getOfferGroups(offers);
 

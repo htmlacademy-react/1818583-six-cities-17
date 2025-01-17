@@ -3,17 +3,20 @@ import {filterOffersByCity, getCityName, getSortedOffers} from '../adaptors.ts';
 import {DEFAULT_CITY} from '../const.ts';
 import {LocationType, OfferType} from '../api/types.ts';
 import {Point} from '../types.ts';
-import {selectCity, selectOffers, selectSortOffersBy} from '../store/selectors.ts';
+import {selectCity, selectSortOffersBy} from '../store/app-slice/selectors.ts';
+import {selectIsLoadingOffers, selectOffers} from '../store/offers-slice/selectors.ts';
 
 type ReturnOffers = {
   offers: OfferType[];
   points: Point[];
   city: LocationType;
+  isLoadingOffers: boolean;
 }
 
 function useOffers(): ReturnOffers {
   const cityId = useAppSelector(selectCity);
   const offers = useAppSelector(selectOffers);
+  const isLoadingOffers = useAppSelector(selectIsLoadingOffers);
   const sortBy = useAppSelector(selectSortOffersBy);
 
   const filteredOffers = filterOffersByCity(offers, cityId);
@@ -33,6 +36,7 @@ function useOffers(): ReturnOffers {
     offers: sortedOffers,
     points,
     city,
+    isLoadingOffers,
   };
 }
 

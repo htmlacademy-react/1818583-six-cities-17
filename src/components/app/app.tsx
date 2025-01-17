@@ -29,7 +29,7 @@ function App() {
       }
       />
       <Route path={AppPages.OFFER} element={<OfferPage />}/>
-      <Route path={AppPages.PAGE_404} element={<NotFoundPage />}/>
+      <Route path={AppPages.ANY_PAGE} element={<NotFoundPage />}/>
     </Routes>
   );
 }
