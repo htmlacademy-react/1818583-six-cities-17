@@ -11,6 +11,7 @@ import {AuthStatus} from '../../api/const.ts';
 import {Spinner} from '../../components/spinner/spinner.tsx';
 import {selectAuthStatus, selectIsLoadingUser} from '../../store/user-slice/selectors.ts';
 import {selectCity} from '../../store/app-slice/selectors.ts';
+import {MainEmpty} from '../../components/main-empty/main-empty.tsx';
 
 function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
@@ -44,12 +45,18 @@ function MainPage() {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {getCityName(cityId)}</b>
-              <SortBy />
-              <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
-            </section>
+            {
+              offers.length ? (
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{offers.length} places to stay in {getCityName(cityId)}</b>
+                  <SortBy />
+                  <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
+                </section>
+              ) : (
+                <MainEmpty cityName={getCityName(cityId)}/>
+              )
+            }
             <div className="cities__right-section">
               <CityMap activeOfferId={activeOfferId} points={points} city={city} className='cities__map'/>
             </div>
