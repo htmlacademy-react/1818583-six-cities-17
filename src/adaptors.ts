@@ -1,5 +1,5 @@
 import {CITY_LINKS, OFFER_CATEGORIES, REVIEWS_MAX_COUNT, SORT_BY, SORT_BY_OPTIONS} from './const.ts';
-import {CityName, CommentType, OfferType} from './api/types.ts';
+import {CityName, CommentType, OfferDetailsType, OfferType} from './api/types.ts';
 
 type OfferGroups = Record<CityName, OfferType[]>;
 
@@ -66,4 +66,8 @@ export function mapComments(comments: CommentType[]): CommentType[] {
 
 export function getOfferCategory(type: string): string {
   return OFFER_CATEGORIES[type];
+}
+
+export function isOfferFavorite<T extends OfferType | OfferDetailsType>(favoriteOffers: T[], offerId: string): boolean {
+  return favoriteOffers.find((favorite) => favorite.id === offerId)?.isFavorite || false;
 }

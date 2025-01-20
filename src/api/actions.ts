@@ -8,7 +8,7 @@ import {
   ThunkOptions,
   UserData
 } from './types.ts';
-import {ApiRoutes} from './const.ts';
+import {ApiRoutes, ERROR_CHANGE_FAVORITE_MESSAGE} from './const.ts';
 import {dropToken, saveToken} from './token.ts';
 
 const createAppAsyncThunk = createAsyncThunk.withTypes<ThunkOptions>();
@@ -77,5 +77,34 @@ export const logoutAction = createAppAsyncThunk<void, undefined>(
   async (_arg, {extra: api}) => {
     await api.delete(ApiRoutes.LOGOUT);
     dropToken();
+  }
+);
+
+export const fetchFavoritesAction = createAppAsyncThunk<OfferType[], undefined>(
+  'offers/favorites',
+  async (_arg, {extra: api}) => {
+    const response = await api.get<OfferType[]>(ApiRoutes.FAVORITE);
+    return response?.data;
+  }
+);
+
+export const changeFavoriteAction = createAppAsyncThunk<OfferType, { offerId: string; status: number }>(
+  'offer/changeFavorite',
+  async ({ offerId, status }, {getState, extra: api}) => {
+    const { data } = await api.post<OfferDetailsType>(`${ApiRoutes.FAVORITE}/${offerId}/${status}`);
+
+    const {offers} = getState().offers;
+    const currentOffer = offers.find((offer) => offer.id === data.id);
+
+    if (!currentOffer) {
+      throw new Error(ERROR_CHANGE_FAVORITE_MESSAGE);
+    }
+
+    const result: OfferType = {
+      ...currentOffer,
+      isFavorite: data.isFavorite,
+    };
+
+    return result;
   }
 );

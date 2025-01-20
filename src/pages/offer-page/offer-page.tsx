@@ -10,7 +10,7 @@ import {fetchOfferAction, fetchOfferCommentsAction, fetchOffersNearbyAction} fro
 import {Navigate, useParams} from 'react-router-dom';
 import {Spinner} from '../../components/spinner/spinner.tsx';
 import {AuthStatus} from '../../api/const.ts';
-import {getOfferCategory, mapComments} from '../../adaptors.ts';
+import {getOfferCategory, isOfferFavorite, mapComments} from '../../adaptors.ts';
 import {AppPages} from '../../const.ts';
 import {
   selectIsLoadingOffer,
@@ -21,6 +21,9 @@ import {
   selectOffersNearby
 } from '../../store/offer-slice/selectors.ts';
 import {selectAuthStatus, selectIsLoadingUser} from '../../store/user-slice/selectors.ts';
+import {selectFavoriteOffers, selectIsLoadingFavorites} from '../../store/favorites-slice/selectors.ts';
+import {OfferDetailsType, OfferType} from '../../api/types.ts';
+import {FavoriteButton} from '../../components/favorite-button/favorite-button.tsx';
 
 function OfferPage() {
   const { id: offerId } = useParams();
@@ -43,8 +46,10 @@ function OfferPage() {
   const isLoadingOfferComments = useAppSelector(selectIsLoadingOfferComments);
   const authStatus = useAppSelector(selectAuthStatus);
   const isLoadingUser = useAppSelector(selectIsLoadingUser);
+  const isLoadingFavorites = useAppSelector(selectIsLoadingFavorites);
+  const favoriteOffers = useAppSelector(selectFavoriteOffers);
 
-  const loading = isLoadingOffer || isLoadingOffersNearby || isLoadingOfferComments || isLoadingUser;
+  const loading = isLoadingOffer || isLoadingOffersNearby || isLoadingOfferComments || isLoadingUser || isLoadingFavorites;
 
   const handleAddComment = () => {
     if (offerId) {
@@ -60,19 +65,46 @@ function OfferPage() {
     return <Navigate to={AppPages.PAGE_404} />;
   }
 
-  const POINTS_NEARBY = offersNearby.map((offerNearby) => ({
-    id: offerNearby.id,
-    location: offerNearby.location,
+  const offerWithFavorite: OfferDetailsType = {
+    ...offer,
+    isFavorite: isOfferFavorite(favoriteOffers, offer.id),
+  };
+
+  const offersNearbyWithFavorites: OfferType[] = offersNearby.map((nearby) => ({
+    ...nearby,
+    isFavorite: isOfferFavorite(favoriteOffers, nearby.id),
+  }));
+
+  const POINTS_NEARBY = offersNearbyWithFavorites.map((nearby) => ({
+    id: nearby.id,
+    location: nearby.location,
   }));
 
   const POINTS: Point[] = [{
-    id: offer.id,
-    location: offer.location,
+    id: offerWithFavorite.id,
+    location: offerWithFavorite.location,
   }, ...POINTS_NEARBY];
 
   const commentsFiltered = mapComments(offerComments);
 
-  const starsWidth = Math.round(offer.rating / 5 * 100);
+  const starsWidth = Math.round(offerWithFavorite.rating / 5 * 100);
+
+  const {
+    id,
+    images,
+    isPremium,
+    title,
+    isFavorite,
+    rating,
+    type,
+    bedrooms,
+    maxAdults,
+    price,
+    goods,
+    host,
+    description,
+    city,
+  } = offerWithFavorite;
 
   return (
     <div className="page">
@@ -83,7 +115,7 @@ function OfferPage() {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {
-                offer.images.map((image) => (
+                images.map((image) => (
                   <div className="offer__image-wrapper" key={image}>
                     <img className="offer__image" src={image} alt="Photo studio"/>
                   </div>
@@ -94,7 +126,7 @@ function OfferPage() {
           <div className="offer__container container">
             <div className="offer__wrapper">
               {
-                offer.isPremium && (
+                isPremium && (
                   <div className="offer__mark">
                     <span>Premium</span>
                   </div>
@@ -102,42 +134,43 @@ function OfferPage() {
               }
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {offer.title}
+                  {title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton
+                  offerId={id}
+                  isFavorite={isFavorite}
+                  buttonClass='offer'
+                  width='31'
+                  height='33'
+                />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
                   <span style={{width: `${starsWidth}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{offer.rating}</span>
+                <span className="offer__rating-value rating__value">{rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {getOfferCategory(offer.type)}
+                  {getOfferCategory(type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {offer.bedrooms} Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {offer.maxAdults} adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{offer.price}</b>
+                <b className="offer__price-value">&euro;{price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
                   {
-                    offer.goods.map((item) => (
+                    goods.map((item) => (
                       <li className="offer__inside-item" key={item}>
                         {item}
                       </li>
@@ -149,15 +182,15 @@ function OfferPage() {
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74"
+                    <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74"
                       alt="Host avatar"
                     />
                   </div>
                   <span className="offer__user-name">
-                    {offer.host.name}
+                    {host.name}
                   </span>
                   {
-                    offer.host.isPro && (
+                    host.isPro && (
                       <span className="offer__user-status">
                         Pro
                       </span>
@@ -166,7 +199,7 @@ function OfferPage() {
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                    {offer.description}
+                    {description}
                   </p>
                 </div>
               </div>
@@ -177,11 +210,13 @@ function OfferPage() {
               }
             </div>
           </div>
-          <CityMap city={offer.city.location} points={POINTS} activeOfferId={offer.id} className='offer__map map'/>
+          <CityMap city={city.location} points={POINTS} activeOfferId={id} className='offer__map map'/>
         </section>
         <div className="container">
           {
-            offersNearby && <OtherPlacesList list={offersNearby}/>
+            offersNearbyWithFavorites.length ? (
+              <OtherPlacesList list={offersNearbyWithFavorites}/>
+            ) : null
           }
         </div>
       </main>

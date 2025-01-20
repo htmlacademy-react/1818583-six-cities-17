@@ -7,10 +7,13 @@ import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
 import {memo} from 'react';
 import {selectAuthStatus, selectUserData} from '../../store/user-slice/selectors.ts';
+import {setFavoriteOffers} from '../../store/favorites-slice/favorites-slice.ts';
+import {selectFavoriteOffers} from '../../store/favorites-slice/selectors.ts';
 
 function Header() {
   const authStatus = useAppSelector(selectAuthStatus);
   const user = useAppSelector(selectUserData);
+  const favoriteOffers = useAppSelector(selectFavoriteOffers);
   const isAuth = authStatus === AuthStatus.AUTH;
 
   const dispatch = useAppDispatch();
@@ -20,6 +23,7 @@ function Header() {
   const handleSignOut = () => {
     if (isAuth) {
       dispatch(logoutAction());
+      dispatch(setFavoriteOffers([]));
     } else {
       navigate(AppPages.LOGIN);
     }
@@ -44,8 +48,7 @@ function Header() {
                         <img src={user.avatarUrl} alt=''/>
                       </div>
                       <span className="header__user-name user__name">{user.email}</span>
-                      {/*todo*/}
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__favorite-count">{favoriteOffers.length}</span>
                     </Link>
                   </li>
                 )
