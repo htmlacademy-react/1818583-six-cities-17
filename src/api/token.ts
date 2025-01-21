@@ -1,15 +1,15 @@
 import {Token} from './types.ts';
-import {AUTH_TOKEN_KEY_NAME} from './const.ts';
+import {ApiConfigType} from './const.ts';
 
 export const getToken = (): Token => {
-  const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
+  const token = localStorage.getItem(ApiConfigType.TokenKeyName);
   return token ?? '';
 };
 
 export const saveToken = (token: Token) => {
-  localStorage.setItem(AUTH_TOKEN_KEY_NAME, token);
+  localStorage.setItem(ApiConfigType.TokenKeyName, token);
 };
 
 export const dropToken = () => {
-  localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
+  localStorage.removeItem(ApiConfigType.TokenKeyName);
 };

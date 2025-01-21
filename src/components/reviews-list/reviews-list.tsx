@@ -1,5 +1,5 @@
 import {AddCommentForm} from '../add-comment-form/add-comment-form.tsx';
-import {Review} from '../review/review.tsx';
+import {Review} from '../../shared/review/review.tsx';
 import {CommentType} from '../../api/types.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
@@ -22,7 +22,7 @@ function ReviewsList({ list, onAddComment }: Props) {
         }
       </ul>
       {
-        authStatus === AuthStatus.AUTH && <AddCommentForm onAddComment={onAddComment}/>
+        authStatus === AuthStatus.Auth && <AddCommentForm onAddComment={onAddComment}/>
       }
     </section>
   );

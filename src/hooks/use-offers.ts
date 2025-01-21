@@ -1,11 +1,14 @@
 import {useAppSelector} from './use-app-selector.ts';
-import {filterOffersByCity, getCityName, getSortedOffers, isOfferFavorite} from '../adaptors.ts';
-import {DEFAULT_CITY} from '../const.ts';
+import {filterOffersByCity} from '../utils/adaptors.ts';
+import {defaultCity} from '../const.ts';
 import {LocationType, OfferType} from '../api/types.ts';
 import {Point} from '../types.ts';
 import {selectCity, selectSortOffersBy} from '../store/app-slice/selectors.ts';
 import {selectIsLoadingOffers, selectOffers} from '../store/offers-slice/selectors.ts';
 import {selectFavoriteOffers} from '../store/favorites-slice/selectors.ts';
+import {isOfferFavorite} from '../utils/is-offer-favorite.ts';
+import {getCityName} from '../utils/get-city-name.ts';
+import {getSortedOffers} from '../utils/get-sorted-offers.ts';
 
 type ReturnOffers = {
   offers: OfferType[];
@@ -35,7 +38,7 @@ function useOffers(): ReturnOffers {
 
   const cityName = getCityName(cityId);
 
-  const city: LocationType = offersWithFavorites.find((offer) => offer.city.name === cityName)?.city.location || DEFAULT_CITY;
+  const city: LocationType = offersWithFavorites.find((offer) => offer.city.name === cityName)?.city.location || defaultCity;
 
   const sortedOffers = getSortedOffers(offersWithFavorites, sortBy);
 

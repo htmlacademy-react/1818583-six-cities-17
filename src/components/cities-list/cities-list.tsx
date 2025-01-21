@@ -1,6 +1,6 @@
-import {CITY_LINKS} from '../../const.ts';
+import {cityLinks} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
-import './cities-list-style.css';
+import './style.css';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {memo} from 'react';
 import {changeCity} from '../../store/app-slice/app-slice.ts';
@@ -18,7 +18,7 @@ function CitiesList() {
   return (
     <ul className="locations__list tabs__list">
       {
-        CITY_LINKS.map((link) => (
+        cityLinks.map((link) => (
           <li className="locations__item" key={link.id}>
             <div className={`locations__item-link tabs__item${link.id === cityId ? ' tabs__item--active' : ''}`} onClick={() => onLinkClick(link.id)}>
               <span>{link.displayName}</span>

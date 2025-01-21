@@ -24,23 +24,23 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (authStatus === AuthStatus.AUTH) {
+    if (authStatus === AuthStatus.Auth) {
       dispatch(fetchFavoritesAction());
     }
   }, [authStatus, dispatch]);
 
   return (
     <Routes>
-      <Route path={AppPages.MAIN} element={<MainPage />}/>
-      <Route path={AppPages.LOGIN} element={<LoginPage />}/>
-      <Route path={AppPages.FAVORITES} element={
+      <Route path={AppPages.Main} element={<MainPage />}/>
+      <Route path={AppPages.Login} element={<LoginPage />}/>
+      <Route path={AppPages.Favorites} element={
         <PrivateRoute>
           <FavoritesPage />
         </PrivateRoute>
       }
       />
-      <Route path={AppPages.OFFER} element={<OfferPage />}/>
-      <Route path={AppPages.ANY_PAGE} element={<NotFoundPage />}/>
+      <Route path={AppPages.Offer} element={<OfferPage />}/>
+      <Route path={AppPages.AnyPage} element={<NotFoundPage />}/>
     </Routes>
   );
 }

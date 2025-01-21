@@ -1,17 +1,17 @@
 import {Header} from '../../components/header/header.tsx';
 import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
-import {CityMap} from '../../components/city-map/city-map.tsx';
+import {CityMap} from '../../shared/city-map/city-map.tsx';
 import {Point} from '../../types.ts';
 import {OtherPlacesList} from '../../components/other-places-list/other-places-list.tsx';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {fetchOfferAction, fetchOfferCommentsAction, fetchOffersNearbyAction} from '../../api/actions.ts';
 import {Navigate, useParams} from 'react-router-dom';
-import {Spinner} from '../../components/spinner/spinner.tsx';
+import {Spinner} from '../../shared/spinner/spinner.tsx';
 import {AuthStatus} from '../../api/const.ts';
-import {getOfferCategory, isOfferFavorite, mapComments} from '../../adaptors.ts';
-import {AppPages} from '../../const.ts';
+import {mapComments, mapOffersNearbyToPoints} from '../../utils/adaptors.ts';
+import {AppPages, MAX_OFFER_IMAGES} from '../../const.ts';
 import {
   selectIsLoadingOffer,
   selectIsLoadingOfferComments,
@@ -24,6 +24,8 @@ import {selectAuthStatus, selectIsLoadingUser} from '../../store/user-slice/sele
 import {selectFavoriteOffers, selectIsLoadingFavorites} from '../../store/favorites-slice/selectors.ts';
 import {OfferDetailsType, OfferType} from '../../api/types.ts';
 import {FavoriteButton} from '../../components/favorite-button/favorite-button.tsx';
+import {isOfferFavorite} from '../../utils/is-offer-favorite.ts';
+import {getOfferCategory} from '../../utils/get-offer-category.ts';
 
 function OfferPage() {
   const { id: offerId } = useParams();
@@ -49,20 +51,22 @@ function OfferPage() {
   const isLoadingFavorites = useAppSelector(selectIsLoadingFavorites);
   const favoriteOffers = useAppSelector(selectFavoriteOffers);
 
-  const loading = isLoadingOffer || isLoadingOffersNearby || isLoadingOfferComments || isLoadingUser || isLoadingFavorites;
-
   const handleAddComment = () => {
     if (offerId) {
       dispatch(fetchOfferCommentsAction({ offerId }));
     }
   };
 
-  if (loading || authStatus === AuthStatus.UNKNOWN) {
+  const commentsFiltered = useMemo(() => mapComments(offerComments), [offerComments]);
+
+  const loading = isLoadingOffer || isLoadingOffersNearby || isLoadingOfferComments || isLoadingUser || isLoadingFavorites;
+
+  if (loading || authStatus === AuthStatus.Unknown) {
     return <Spinner />;
   }
 
   if (!offer) {
-    return <Navigate to={AppPages.PAGE_404} />;
+    return <Navigate to={AppPages.Page404} />;
   }
 
   const offerWithFavorite: OfferDetailsType = {
@@ -75,19 +79,14 @@ function OfferPage() {
     isFavorite: isOfferFavorite(favoriteOffers, nearby.id),
   }));
 
-  const POINTS_NEARBY = offersNearbyWithFavorites.map((nearby) => ({
-    id: nearby.id,
-    location: nearby.location,
-  }));
+  const pointsNearby = mapOffersNearbyToPoints(offersNearby);
 
-  const POINTS: Point[] = [{
-    id: offerWithFavorite.id,
-    location: offerWithFavorite.location,
-  }, ...POINTS_NEARBY];
+  const points: Point[] = [{
+    id: offer.id,
+    location: offer.location,
+  }, ...pointsNearby];
 
-  const commentsFiltered = mapComments(offerComments);
-
-  const starsWidth = Math.round(offerWithFavorite.rating / 5 * 100);
+  const starsWidth = Math.round(offerWithFavorite.rating) * 20;
 
   const {
     id,
@@ -115,7 +114,7 @@ function OfferPage() {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {
-                images.map((image) => (
+                images.slice(0, MAX_OFFER_IMAGES).map((image) => (
                   <div className="offer__image-wrapper" key={image}>
                     <img className="offer__image" src={image} alt="Photo studio"/>
                   </div>
@@ -156,10 +155,10 @@ function OfferPage() {
                   {getOfferCategory(type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {bedrooms} Bedrooms
+                  {bedrooms} Bedroom{bedrooms > 1 && 's'}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {maxAdults} adults
+                  Max {maxAdults} adult{maxAdults > 1 && 's'}
                 </li>
               </ul>
               <div className="offer__price">
@@ -203,14 +202,10 @@ function OfferPage() {
                   </p>
                 </div>
               </div>
-              {
-                commentsFiltered.length ? (
-                  <ReviewsList list={commentsFiltered} onAddComment={handleAddComment}/>
-                ) : null
-              }
+              <ReviewsList list={commentsFiltered} onAddComment={handleAddComment}/>
             </div>
           </div>
-          <CityMap city={city.location} points={POINTS} activeOfferId={id} className='offer__map map'/>
+          <CityMap city={city.location} points={points} activeOfferId={id} className='offer__map map'/>
         </section>
         <div className="container">
           {

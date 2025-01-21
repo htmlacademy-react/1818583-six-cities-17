@@ -12,7 +12,7 @@ type Props = {
 function OfferCard({ offer, cardType, onActiveOffer = () => {} }: Props) {
   const { rating, previewImage, price, isPremium, title, type, id, isFavorite} = offer;
 
-  const placeRating = rating || 0;
+  const placeRating = Math.round(rating || 0);
   const linkTo = `/offer/${id}`;
 
   return (

@@ -1,14 +1,15 @@
 import {Header} from '../../components/header/header.tsx';
-import {Footer} from '../../components/footer/footer.tsx';
+import {Footer} from '../../shared/footer/footer.tsx';
 import {FavoriteGroup} from '../../components/favorite-group/favorite-group.tsx';
-import {getOfferGroups} from '../../adaptors.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {OfferType} from '../../api/types.ts';
-import {Spinner} from '../../components/spinner/spinner.tsx';
+import {Spinner} from '../../shared/spinner/spinner.tsx';
 import {selectFavoriteOffers, selectIsLoadingFavorites} from '../../store/favorites-slice/selectors.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {useEffect} from 'react';
 import {fetchFavoritesAction} from '../../api/actions.ts';
+import {FavoritesEmpty} from '../../shared/favorites-empty/favorites-empty.tsx';
+import {groupOffers} from '../../utils/adaptors.ts';
 
 function FavoritesPage() {
   const favoriteOffers = useAppSelector(selectFavoriteOffers);
@@ -24,7 +25,7 @@ function FavoritesPage() {
     return <Spinner />;
   }
 
-  const offerGroups = getOfferGroups(favoriteOffers);
+  const offerGroups = groupOffers(favoriteOffers);
   const offerKeys = Object.keys(offerGroups);
 
   return (
@@ -47,14 +48,7 @@ function FavoritesPage() {
                 </ul>
               </section>
             ) : (
-              <section className="favorites favorites--empty">
-                <h1 className="visually-hidden">Favorites (empty)</h1>
-                <div className="favorites__status-wrapper">
-                  <b className="favorites__status">Nothing yet saved.</b>
-                  <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.
-                  </p>
-                </div>
-              </section>
+              <FavoritesEmpty />
             )
           }
         </div>
