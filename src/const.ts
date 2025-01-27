@@ -13,7 +13,7 @@ export enum AppPages {
   Favorites = '/favorites',
   Offer = '/offer/:id',
   Page404 = '/404',
-  AnyPage = '*',
+  UnknownPage = '*',
 }
 
 export enum UrlMarkers {

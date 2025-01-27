@@ -40,7 +40,7 @@ function App() {
       }
       />
       <Route path={AppPages.Offer} element={<OfferPage />}/>
-      <Route path={AppPages.AnyPage} element={<NotFoundPage />}/>
+      <Route path={AppPages.UnknownPage} element={<NotFoundPage />}/>
     </Routes>
   );
 }
