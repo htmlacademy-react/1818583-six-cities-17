@@ -5,6 +5,7 @@ import {
 import {CityName, CommentType, OfferType} from '../api/types.ts';
 import {Point} from '../types.ts';
 import {getCityName} from './get-city-name.ts';
+import {isOfferFavorite} from './is-offer-favorite.ts';
 
 type OfferGroups = Record<CityName, OfferType[]>;
 
@@ -57,5 +58,14 @@ export function mapOffersNearbyToPoints(offersNearby: OfferType[]): Point[] {
     .map((nearby) => ({
       id: nearby.id,
       location: nearby.location,
+    }));
+}
+
+export function mapOffersNearbyWithFavorites(offersNearby: OfferType[], favoriteOffers: OfferType[]): OfferType[] {
+  return offersNearby
+    .slice(0, MAX_NEARBY_OFFERS)
+    .map((nearby) => ({
+      ...nearby,
+      isFavorite: isOfferFavorite(favoriteOffers, nearby.id),
     }));
 }

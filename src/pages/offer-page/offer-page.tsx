@@ -10,7 +10,7 @@ import {fetchOfferAction, fetchOfferCommentsAction, fetchOffersNearbyAction} fro
 import {Navigate, useParams} from 'react-router-dom';
 import {Spinner} from '../../shared/spinner/spinner.tsx';
 import {AuthStatus} from '../../api/const.ts';
-import {mapComments, mapOffersNearbyToPoints} from '../../utils/adaptors.ts';
+import {mapComments, mapOffersNearbyToPoints, mapOffersNearbyWithFavorites} from '../../utils/adaptors.ts';
 import {AppPages, MAX_OFFER_IMAGES} from '../../const.ts';
 import {
   selectIsLoadingOffer,
@@ -74,10 +74,7 @@ function OfferPage() {
     isFavorite: isOfferFavorite(favoriteOffers, offer.id),
   };
 
-  const offersNearbyWithFavorites: OfferType[] = offersNearby.map((nearby) => ({
-    ...nearby,
-    isFavorite: isOfferFavorite(favoriteOffers, nearby.id),
-  }));
+  const offersNearbyWithFavorites: OfferType[] = mapOffersNearbyWithFavorites(offersNearby, favoriteOffers);
 
   const pointsNearby = mapOffersNearbyToPoints(offersNearby);
 
