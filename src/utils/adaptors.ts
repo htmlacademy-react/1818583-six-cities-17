@@ -1,9 +1,14 @@
-import {CITY_LINKS, OFFER_CATEGORIES, REVIEWS_MAX_COUNT, SORT_BY, SORT_BY_OPTIONS} from './const.ts';
-import {CityName, CommentType, OfferDetailsType, OfferType} from './api/types.ts';
+import {
+  MAX_NEARBY_OFFERS,
+  REVIEWS_MAX_COUNT,
+} from '../const.ts';
+import {CityName, CommentType, OfferType} from '../api/types.ts';
+import {Point} from '../types.ts';
+import {getCityName} from './get-city-name.ts';
 
 type OfferGroups = Record<CityName, OfferType[]>;
 
-export function getOfferGroups(offers: OfferType[]): OfferGroups {
+export function groupOffers(offers: OfferType[]): OfferGroups {
   const result: OfferGroups = {};
 
   offers.forEach((offer) => {
@@ -19,27 +24,9 @@ export function getOfferGroups(offers: OfferType[]): OfferGroups {
   return result;
 }
 
-export function getCityName(cityId?: string) {
-  return CITY_LINKS.find((link) => link.id === cityId)?.displayName || '';
-}
-
 export function filterOffersByCity(offers?: OfferType[], cityId?: string): OfferType[] {
   const cityName = getCityName(cityId);
   return offers?.filter((offer) => offer.city.name === cityName) || [];
-}
-
-export function getSortByLabel(sortBy: SORT_BY) {
-  return SORT_BY_OPTIONS.find((option) => option.sortBy === sortBy)?.label || '';
-}
-
-export function getSortedOffers(offers: OfferType[], sortBy: SORT_BY): OfferType[] {
-  const sortingAction = SORT_BY_OPTIONS.find((option) => option.sortBy === sortBy)?.sortingAction;
-
-  if (!sortingAction) {
-    return [];
-  }
-
-  return sortingAction(offers);
 }
 
 export function sortOffersByPriceHighLow(offers: OfferType[]): OfferType[] {
@@ -64,10 +51,11 @@ export function mapComments(comments: CommentType[]): CommentType[] {
     .slice(0, REVIEWS_MAX_COUNT);
 }
 
-export function getOfferCategory(type: string): string {
-  return OFFER_CATEGORIES[type];
-}
-
-export function isOfferFavorite<T extends OfferType | OfferDetailsType>(favoriteOffers: T[], offerId: string): boolean {
-  return favoriteOffers.find((favorite) => favorite.id === offerId)?.isFavorite || false;
+export function mapOffersNearbyToPoints(offersNearby: OfferType[]): Point[] {
+  return offersNearby
+    .slice(0, MAX_NEARBY_OFFERS)
+    .map((nearby) => ({
+      id: nearby.id,
+      location: nearby.location,
+    }));
 }

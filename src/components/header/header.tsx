@@ -1,6 +1,6 @@
 import {Link, useNavigate} from 'react-router-dom';
 import {AppPages} from '../../const.ts';
-import './header-style.css';
+import './style.css';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {logoutAction} from '../../api/actions.ts';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
@@ -14,7 +14,7 @@ function Header() {
   const authStatus = useAppSelector(selectAuthStatus);
   const user = useAppSelector(selectUserData);
   const favoriteOffers = useAppSelector(selectFavoriteOffers);
-  const isAuth = authStatus === AuthStatus.AUTH;
+  const isAuth = authStatus === AuthStatus.Auth;
 
   const dispatch = useAppDispatch();
 
@@ -25,7 +25,7 @@ function Header() {
       dispatch(logoutAction());
       dispatch(setFavoriteOffers([]));
     } else {
-      navigate(AppPages.LOGIN);
+      navigate(AppPages.Login);
     }
   };
 
@@ -34,7 +34,7 @@ function Header() {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className="header__logo-link header__logo-link--active" to={AppPages.MAIN}>
+            <Link className="header__logo-link header__logo-link--active" to={AppPages.Main}>
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
@@ -43,7 +43,7 @@ function Header() {
               {
                 user && (
                   <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to={AppPages.FAVORITES}>
+                    <Link className="header__nav-link header__nav-link--profile" to={AppPages.Favorites}>
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                         <img src={user.avatarUrl} alt=''/>
                       </div>

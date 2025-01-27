@@ -1,12 +1,14 @@
 import {Link, Navigate} from 'react-router-dom';
-import {AppPages} from '../../const.ts';
+import {AppPages, cityLinks} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {loginAction} from '../../api/actions.ts';
 import {FormEvent, useRef} from 'react';
 import {useAppSelector} from '../../hooks/use-app-selector.ts';
 import {AuthStatus} from '../../api/const.ts';
-import {Spinner} from '../../components/spinner/spinner.tsx';
+import {Spinner} from '../../shared/spinner/spinner.tsx';
 import {selectAuthStatus, selectIsLoadingUser} from '../../store/user-slice/selectors.ts';
+import {getRandomCityLink} from '../../utils/get-random-city-link.ts';
+import {changeCity} from '../../store/app-slice/app-slice.ts';
 
 function LoginPage() {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -17,8 +19,8 @@ function LoginPage() {
 
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
       dispatch(loginAction({
@@ -28,8 +30,14 @@ function LoginPage() {
     }
   };
 
-  if (authStatus === AuthStatus.AUTH) {
-    return <Navigate to={AppPages.MAIN} />;
+  const city = getRandomCityLink(cityLinks);
+
+  const handleCityClick = () => {
+    dispatch(changeCity(city.id));
+  };
+
+  if (authStatus === AuthStatus.Auth) {
+    return <Navigate to={AppPages.Main} />;
   }
 
   if (loading) {
@@ -42,7 +50,7 @@ function LoginPage() {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link" to={AppPages.MAIN}>
+              <Link className="header__logo-link" to={AppPages.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
@@ -61,15 +69,27 @@ function LoginPage() {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef}/>
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  ref={passwordRef}
+                  pattern="^(?=.*[a-zA-Z])(?=.*\d).{2,}$"
+                />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="#">
-                <span>Amsterdam</span>
+              <Link
+                className="locations__item-link"
+                to={AppPages.Main}
+                onClick={handleCityClick}
+              >
+                <span>{city.displayName}</span>
               </Link>
             </div>
           </section>

@@ -8,7 +8,7 @@ import {UserData} from '../../api/types.ts';
 import {AuthStatus} from '../../api/const.ts';
 
 const initialState: UserSliceType = {
-  authStatus: AuthStatus.UNKNOWN,
+  authStatus: AuthStatus.Unknown,
   userData: null,
   isLoadingUser: true,
 };
@@ -25,11 +25,11 @@ const userSlice = createSlice({
       .addCase(checkAuthAction.fulfilled, (state, { payload }: PayloadAction<UserData>) => {
         state.userData = payload;
         state.isLoadingUser = false;
-        state.authStatus = AuthStatus.AUTH;
+        state.authStatus = AuthStatus.Auth;
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.isLoadingUser = false;
-        state.authStatus = AuthStatus.NO_AUTH;
+        state.authStatus = AuthStatus.NoAuth;
       })
       .addCase(loginAction.pending, (state) => {
         state.isLoadingUser = true;
@@ -37,17 +37,17 @@ const userSlice = createSlice({
       .addCase(loginAction.fulfilled, (state, { payload }: PayloadAction<UserData>) => {
         state.userData = payload;
         state.isLoadingUser = false;
-        state.authStatus = AuthStatus.AUTH;
+        state.authStatus = AuthStatus.Auth;
       })
       .addCase(loginAction.rejected, (state) => {
         state.isLoadingUser = false;
-        state.authStatus = AuthStatus.NO_AUTH;
+        state.authStatus = AuthStatus.NoAuth;
       })
       .addCase(logoutAction.pending, (state) => {
         state.isLoadingUser = true;
       })
       .addCase(logoutAction.fulfilled, (state) => {
-        state.authStatus = AuthStatus.NO_AUTH;
+        state.authStatus = AuthStatus.NoAuth;
         state.userData = null;
         state.isLoadingUser = false;
       })

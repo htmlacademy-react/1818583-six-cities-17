@@ -23,13 +23,13 @@ function FavoriteButton({ offerId, isFavorite, buttonClass, width, height }: Pro
   const favoriteClass = isFavorite ? `${buttonClass}__bookmark-button--active` : '';
 
   const handleAddFavorite = () => {
-    if (authStatus === AuthStatus.AUTH) {
+    if (authStatus === AuthStatus.Auth) {
       dispatch(changeFavoriteAction({
         offerId,
         status: isFavorite ? 0 : 1,
       }));
     } else {
-      navigate(AppPages.LOGIN);
+      navigate(AppPages.Login);
     }
   };
 

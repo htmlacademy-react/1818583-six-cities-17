@@ -1,5 +1,5 @@
 import {CommentType} from '../../api/types.ts';
-import {convertDate} from '../../utils/convertDate.ts';
+import {convertDate} from '../../utils/convert-date.ts';
 
 type Props = {
   data: CommentType;
