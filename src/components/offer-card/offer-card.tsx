@@ -2,6 +2,7 @@ import {CardType} from '../../types.ts';
 import {Link} from 'react-router-dom';
 import {OfferType} from '../../api/types.ts';
 import {FavoriteButton} from '../favorite-button/favorite-button.tsx';
+import {getOfferCategory} from '../../utils/get-offer-category.ts';
 
 type Props = {
   offer: OfferType;
@@ -56,7 +57,7 @@ function OfferCard({ offer, cardType, onActiveOffer = () => {} }: Props) {
         <h2 className="place-card__name">
           <Link to={linkTo}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{getOfferCategory(type)}</p>
       </div>
     </article>
   );

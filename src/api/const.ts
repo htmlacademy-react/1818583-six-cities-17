@@ -4,7 +4,7 @@ export const ApiConfigType = {
   TokenKeyName: 'six-cities-token',
 } as const;
 
-export enum ApiRoutes {
+export enum ApiRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
@@ -19,7 +19,7 @@ export enum AuthStatus {
   Unknown = 'Unknown',
 }
 
-export enum ApiErrors {
+export enum ApiError {
   AddCommentMessage = 'Ошибка при отправке комментария',
   ChangeFavoriteMessage = 'Ошибка при работе с избранным',
 }
