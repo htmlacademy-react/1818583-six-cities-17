@@ -199,7 +199,11 @@ function OfferPage() {
                   </p>
                 </div>
               </div>
-              <ReviewsList list={commentsFiltered} onAddComment={handleAddComment}/>
+              <ReviewsList
+                list={commentsFiltered}
+                onAddComment={handleAddComment}
+                totalReviewsCount={offerComments.length}
+              />
             </div>
           </div>
           <CityMap city={city.location} points={points} activeOfferId={id} className='offer__map map'/>

@@ -3,7 +3,7 @@ import {ReviewValidation} from '../../const.ts';
 import {useAppDispatch} from '../../hooks/use-app-dispatch.ts';
 import {addOfferCommentAction} from '../../api/actions.ts';
 import {useParams} from 'react-router-dom';
-import {ApiErrors} from '../../api/const.ts';
+import {ApiError} from '../../api/const.ts';
 import './style.css';
 import {CommentPayloadType} from '../../api/types.ts';
 import {Rating} from '../../shared/rating/rating.tsx';
@@ -55,7 +55,7 @@ function AddCommentForm({ onAddComment }: Props) {
     const response = await dispatch(addOfferCommentAction({offerId, payload}));
 
     if (response.meta.requestStatus === 'rejected') {
-      throw new Error(ApiErrors.AddCommentMessage);
+      throw new Error(ApiError.AddCommentMessage);
     }
   };
 

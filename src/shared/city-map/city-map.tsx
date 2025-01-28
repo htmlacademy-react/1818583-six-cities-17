@@ -2,17 +2,17 @@ import {memo, useEffect, useRef} from 'react';
 import {useMap} from '../../hooks/use-map.ts';
 import {Point} from '../../types.ts';
 import leaflet, {layerGroup, Marker} from 'leaflet';
-import {UrlMarkers} from '../../const.ts';
+import {UrlMarker} from '../../const.ts';
 import {LocationType} from '../../api/types.ts';
 
 const defaultCustomIcon = leaflet.icon({
-  iconUrl: UrlMarkers.Default,
+  iconUrl: UrlMarker.Default,
   iconSize: [27, 39],
   iconAnchor: [13, 39],
 });
 
 const currentCustomIcon = leaflet.icon({
-  iconUrl: UrlMarkers.Current,
+  iconUrl: UrlMarker.Current,
   iconSize: [27, 39],
   iconAnchor: [13, 39],
 });
